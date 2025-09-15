@@ -33,7 +33,10 @@
 
     /* ====== Galería 3D (3 imágenes en bucle) ====== */
     .gallery{display:flex; flex-direction:column; align-items:center; gap:8px; margin-bottom:12px}
-    .stage{position:relative; width:100%; height:180px; min-height:180px; perspective:900px}
+    /* Nudge vertical del carrusel: negativo = subir */
+:root{ --gallery-nudge: -24px; }  /* ajustá -12px, -20px, -32px... */
+.gallery{ margin-top: var(--gallery-nudge); }
+    .stage{ position:relative; width:100%; height:160px; min-height:160px; perspective:900px; }
     .card{position:absolute; top:50%; left:50%; width:58%; aspect-ratio:3/4; border-radius:16px; overflow:hidden;
       background:#2a0b55 center/cover no-repeat; box-shadow:0 10px 24px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.06) inset;
       transform:translate(-50%,-50%); transition:transform .25s ease, box-shadow .25s ease, opacity .25s ease}
