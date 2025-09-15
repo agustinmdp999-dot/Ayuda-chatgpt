@@ -10,7 +10,7 @@
     :root{
       --ink:#0f0f1a; --text:#ffffff; --violet:#8b3cff; --magenta:#f038ff; --whats:#25D366;
       /* Ajustes rápidos (MÓVIL): mové estos valores sin tocar el HTML */
-      --spacer-top: 28vh;    /* espacio debajo del logo del fondo para tus imágenes */
+      --spacer-top: 36vh;    /* espacio debajo del logo del fondo para tus imágenes */
       --gap-mid: 12px;       /* separación entre botón, 24HS y banner */
       --legal-top-gap: 6vh;  /* distancia del legal respecto del último texto */
     }
@@ -28,7 +28,7 @@
     header .logo{display:none} /* usamos el logo del fondo */
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-    main{display:flex; flex-direction:column}
+    main{display:flex; flex-direction:column; flex:1}
     .spacer{height:var(--spacer-top)}
 
     .mid-stack{display:flex; flex-direction:column; gap:var(--gap-mid)}
@@ -43,13 +43,14 @@
     /* Cinta sutil para “ATENCIÓN LAS 24 HS” */
     .ribbon{position:relative; border-radius:999px; text-align:center; font-weight:800; line-height:1.2;
       font-size:16px; padding:12px 16px; color:#210c44; backdrop-filter:blur(6px);
-      background:linear-gradient(90deg, rgba(255,255,255,.55), rgba(255,255,255,.75), rgba(255,255,255,.55));
-      box-shadow:0 0 18px rgba(139,60,255,.35), inset 0 0 10px rgba(139,60,255,.25)}
+      background:linear-gradient(90deg, rgba(255,255,255,.45), rgba(255,255,255,.60), rgba(255,255,255,.45));
+      box-shadow:0 0 14px rgba(139,60,255,.25), inset 0 0 8px rgba(139,60,255,.18)}
 
     /* Banner Sorteo diario (cerrado por defecto) */
-    details.banner{border-radius:20px; background:rgba(20,6,40,.45); box-shadow:inset 0 0 0 1px rgba(139,60,255,.25)}
+    details.banner{border-radius:20px; background:rgba(20,6,40,.35); box-shadow:inset 0 0 0 1px rgba(139,60,255,.2)}
     details.banner > summary{list-style:none; cursor:pointer; padding:12px 14px; font-weight:700; border-radius:20px;
-      display:flex; align-items:center; gap:8px; background:linear-gradient(90deg, rgba(139,60,255,.35), rgba(240,56,255,.35));}
+      display:flex; align-items:center; gap:8px; background:linear-gradient(90deg, rgba(139,60,255,.25), rgba(240,56,255,.25));
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
     details.banner > summary::-webkit-details-marker{display:none}
     details.banner > summary:after{content:"▾"; margin-left:auto; font-weight:800}
     details.banner[open] > summary:after{content:"▴"}
@@ -95,28 +96,36 @@
             <p>Acreditación: al día siguiente por la mañana.</p>
           </div>
         </details>
+
+        <details class="banner">
+          <summary>🎁 Bonos exclusivos — consultalos por WhatsApp</summary>
+          <div class="content">
+            <p>Escribinos por WhatsApp para conocer los bonos exclusivos activos para tu cuenta.</p>
+          </div>
+        </details>
       </section>
 
-      <footer>
-        <section class="legal" aria-label="Juego responsable">
-          <details>
-            <summary><span class="chip">+18</span> Juego responsable</summary>
-            <div class="body">
-              <p><strong>Participar implica riesgos.</strong> Jugá con moderación y sólo si sos mayor de 18 años.
-              Si sentís que deja de ser entretenimiento, pedí ayuda profesional y considerá opciones de autoexclusión según tu jurisdicción.</p>
-              <details>
-                <summary><strong>Términos y Condiciones</strong></summary>
-                <div class="body">Las promociones y bonos están sujetos a reglas y requisitos de liberación. Los montos, topes y disponibilidad pueden variar sin previo aviso.</div>
-              </details>
-              <details>
-                <summary><strong>Política de Privacidad</strong></summary>
-                <div class="body">Al contactarnos por WhatsApp aceptás el uso de tus datos para responder consultas y fines comerciales relacionados. Podés solicitar la baja/actualización.</div>
-              </details>
-            </div>
-          </details>
-        </section>
-      </footer>
-    </main>
+      </main>
+
+    <footer>
+      <section class="legal" aria-label="Juego responsable">
+        <details>
+          <summary><span class="chip">+18</span> Juego responsable</summary>
+          <div class="body">
+            <p><strong>Participar implica riesgos.</strong> Jugá con moderación y sólo si sos mayor de 18 años.
+            Si sentís que deja de ser entretenimiento, pedí ayuda profesional y considerá opciones de autoexclusión según tu jurisdicción.</p>
+            <details>
+              <summary><strong>Términos y Condiciones</strong></summary>
+              <div class="body">Las promociones y bonos están sujetos a reglas y requisitos de liberación. Los montos, topes y disponibilidad pueden variar sin previo aviso.</div>
+            </details>
+            <details>
+              <summary><strong>Política de Privacidad</strong></summary>
+              <div class="body">Al contactarnos por WhatsApp aceptás el uso de tus datos para responder consultas y fines comerciales relacionados. Podés solicitar la baja/actualización.</div>
+            </details>
+          </div>
+        </details>
+      </section>
+    </footer>
   </div>
 
   <!-- Rotación de líneas de WhatsApp (opcional, sin backend). Cambia cada 30 min. -->
