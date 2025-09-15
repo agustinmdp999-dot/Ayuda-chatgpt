@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GANAMOS.net — Bono del 30% con tu primera carga</title>
+    <meta name="description" content="Ganamos.net • Bono del 30% con tu primera carga • Atención 24 hs • Juego responsable +18" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+      :root{
+        --bg-1:#0a0418; /* base dark */
+        --bg-2:#1a0335; /* deep violet */
+        --violet:#8b3cff; /* main accent */
+        --magenta:#f038ff; /* secondary accent */
+        --glow:#b980ff;    /* light glow */
+        --white:#ffffff;
+      }
+      *{box-sizing:border-box}
+      html,body{height:100%}
+      body{
+        margin:0; font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:var(--white);
+        background: radial-gradient(60% 70% at 15% 10%, rgba(139,60,255,.25) 0%, rgba(139,60,255,0) 60%),
+                    radial-gradient(40% 40% at 85% 15%, rgba(240,56,255,.18) 0%, rgba(240,56,255,0) 55%),
+                    radial-gradient(40% 40% at 10% 90%, rgba(139,60,255,.18) 0%, rgba(139,60,255,0) 55%),
+                    linear-gradient(180deg, var(--bg-2) 0%, var(--bg-1) 100%);
+        overflow-x:hidden;
+      }
+      /* Fondo opcional basado en tu arte (subí la imagen a /assets/ganamos-publi.png) */
+      .back-art{position:fixed; inset:0; pointer-events:none; opacity:.22; mix-blend-mode:screen; background:url('./assets/ganamos-publi.png') center/cover no-repeat; filter:saturate(1.1) contrast(1.02) blur(.2px);} 
+
+      .container{min-height:100dvh; display:flex; flex-direction:column; justify-content:space-between; align-items:center; padding:clamp(16px, 3vw, 40px); gap:clamp(24px, 3vw, 40px);} 
+      header{width:100%; max-width:1200px; display:flex; align-items:center; justify-content:center;}
+      .logo{display:inline-flex; align-items:center; gap:12px; letter-spacing:1px; font-weight:800; font-size:clamp(28px, 6vw, 64px); text-shadow:0 0 14px rgba(185,128,255,.45), 0 0 2px rgba(255,255,255,.6);} 
+      .dot{color:#ffc940}
+
+      main{width:100%; max-width:1200px; display:flex; flex-direction:column; align-items:center; gap:clamp(18px,2.6vw,28px)}
+      /* Cinta luminosa */
+      .ribbon{position:relative; width:min(1100px, 92vw); padding:clamp(14px, 2.2vw, 22px) clamp(18px, 3vw, 26px); text-align:center; border-radius:999px; font-weight:800; line-height:1.2; font-size:clamp(18px, 3.4vw, 42px); background: linear-gradient(90deg, rgba(255,255,255,.6), rgba(255,255,255,.9), rgba(255,255,255,.6)); color:#2a0b55; box-shadow: 0 0 30px 6px rgba(139,60,255,.55), inset 0 0 12px rgba(139,60,255,.35); isolation:isolate;}
+      .ribbon::before, .ribbon::after{content:""; position:absolute; inset:-6px; border-radius:999px; z-index:-1; background: linear-gradient(90deg, rgba(139,60,255,.95), rgba(240,56,255,.9), rgba(139,60,255,.95)); filter: blur(10px); opacity:.85;}
+
+      /* CTA */
+      .cta{display:flex; align-items:center; justify-content:center; gap:10px;}
+      .btn-whatsapp{appearance:none; border:0; cursor:pointer; text-decoration:none; color:#1d0b3f; font-weight:800; font-size:clamp(16px, 2.8vw, 28px); padding:clamp(12px,1.8vw,16px) clamp(22px,3vw,28px); border-radius:999px; letter-spacing:.3px; background:linear-gradient(90deg, #ffffff, #f3e9ff, #ffffff); box-shadow:0 0 26px rgba(139,60,255,.55), inset 0 0 10px rgba(139,60,255,.3); transition:transform .08s ease, box-shadow .2s ease;}
+      .btn-whatsapp:hover{transform:translateY(-1px); box-shadow:0 0 36px rgba(139,60,255,.75), inset 0 0 12px rgba(139,60,255,.38);} 
+      .btn-whatsapp span.icon{display:inline-block; width:1.1em; height:1.1em; margin-right:.4em; vertical-align:-.2em}
+
+      /* Legal */
+      footer{width:100%;}
+      .legal{max-width:1200px; margin:0 auto; padding:28px clamp(16px,3vw,32px); border-radius:20px; background:rgba(20,6,40,.55); box-shadow: inset 0 0 0 1px rgba(139,60,255,.18); font-size:12px; line-height:1.6; color:#e9dbff;}
+      .badges{display:flex; gap:10px; align-items:center; margin-bottom:10px;}
+      .badge{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; background:rgba(139,60,255,.18); font-weight:700; font-size:12px;}
+      .legal a{color:#d9b6ff}
+      details{margin-top:8px}
+    </style>
+  </head>
+  <body>
+    <div class="back-art" aria-hidden="true"></div>
+    <div class="container">
+      <header>
+        <div class="logo" aria-label="GANAMOS punto net">GANAMOS<span class="dot">.net</span></div>
+      </header>
+
+      <main>
+        <div class="ribbon" aria-live="polite">BONO DEL 30% CON TU PRIMERA CARGA</div>
+
+        <!-- CTA entre ambos textos → RELLENAR el número/link de WhatsApp -->
+        <div class="cta" aria-label="Botón para chatear por WhatsApp">
+          <!-- Reemplazá TU_NUMERO y MENSAJE_URL_ENCODEADO -->
+          <a class="btn-whatsapp" rel="noopener nofollow" target="_blank" href="https://wa.me/TU_NUMERO?text=MENSAJE_URL_ENCODEADO">
+            <span class="icon">💬</span>Chatear por WhatsApp
+          </a>
+        </div>
+
+        <div class="ribbon" style="margin-top:6px">ATENCIÓN LAS 24 HS</div>
+      </main>
+
+      <footer>
+        <section class="legal" aria-label="Información de juego responsable y legal">
+          <div class="badges">
+            <span class="badge">+18</span>
+            <span class="badge">Juego responsable</span>
+          </div>
+          <strong>Juego responsable:</strong> Participar implica riesgos. Jugá con moderación y sólo si sos <strong>mayor de 18 años</strong>. Si sentís que el juego deja de ser entretenimiento, pedí ayuda profesional y considerá opciones de autoexclusión según la normativa de tu jurisdicción.
+          <br />
+          <em>Prohibido para menores de 18 años.</em>
+          <details>
+            <summary><strong>Términos y Condiciones</strong></summary>
+            <p>Las promociones y bonos están sujetos a reglas y requisitos de liberación. Los montos, topes y disponibilidad pueden variar sin previo aviso. El uso del sitio implica la aceptación de estos términos. El contenido tiene fines promocionales y puede no estar disponible en todas las ubicaciones.</p>
+          </details>
+          <details>
+            <summary><strong>Política de Privacidad</strong></summary>
+            <p>Al contactarnos por WhatsApp aceptás que podamos utilizar tus datos para responder consultas y fines comerciales relacionados. Los datos no se ceden a terceros salvo obligación legal. Podés solicitar la baja y/o actualización de tu información.</p>
+          </details>
+          <p>Este material está diseñado para fines informativos/promocionales. Respetá siempre las leyes locales aplicables a juegos de azar.</p>
+        </section>
+      </footer>
+    </div>
+  </body>
+</html>
