@@ -1,73 +1,212 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>GANAMOS.NET — WhatsApp</title>
-    <meta name="description" content="Bono del 30% con tu primera carga. Atención 24 hs. Escribinos por WhatsApp para crear tu usuario." />
-    <meta property="og:title" content="GANAMOS.NET — Bono 30%" />
-    <meta property="og:description" content="Bono del 30% en tu primera carga. Atención 24 hs." />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="bg-ganamos-canva.jpg" />
-    <style>
-      :root{
-        --bg:#0a0810; --text:#f8fafc; --muted:#cbd5e1; --wa:#25D366; --wa-dark:#128C7E;
-      }
-      *{box-sizing:border-box}
-      html,body{height:100%}
-      body{margin:0;font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; color:var(--text); background:var(--bg)}
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>GANAMOS.net — Bono 30% primera carga</title>
+  <meta name="description" content="Ganamos.net • Bono 30% con tu primera carga • Atención 24 hs • Juego responsable +18" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+ :root{
+  --ink:#0f0f1a; --text:#ffffff; --violet:#8b3cff; --magenta:#f038ff; --whats:#25D366;
+  --offset-logo: 120px;     /* mueve TODO el bloque hacia arriba */
+  --gallery-height: 170px;  /* alto de la galería */
+  --gap-after-gallery: 16px; /* aire entre galería y botón */
+  --cards-center: 44%;      /* sube SOLO las tarjetas (menos = más arriba) */
+  --legal-top-gap: 7vh;
+}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; color:var(--text); font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(60% 70% at 15% 10%, rgba(139,60,255,.25) 0%, rgba(139,60,255,0) 60%),
+                  linear-gradient(180deg,#1a0335 0%, #0a0418 100%);
+      overflow-x:hidden;}
+    /* Fondo móvil: tu arte SIN textos (solo logo arriba) — archivo en la RAÍZ */
+    .back-art{position:fixed; inset:0; pointer-events:none; opacity:.28; mix-blend-mode:screen;
+      background:
+        url('./bg-ganamos-canva.jpg') center/cover no-repeat,
+        url('./bg-ganamos-canva.png') center/cover no-repeat,
+        url('./mi%20cumplea%C3%B1os%20(1).png') center/cover no-repeat,
+        radial-gradient(1200px 800px at 50% 50%, #1b1030, #0a0810);
+    }
 
-      /* Sección con la imagen exportada desde Canva como fondo completo */
-      .hero{position:relative; min-height:100svh; display:flex; align-items:end; justify-content:center; padding:clamp(16px,4vw,32px);}
-      .hero::before{content:""; position:fixed; inset:0; background:
-          /* Fallbacks en cadena: intenta en este orden */
-          url('bg-ganamos-canva.jpg') center/cover no-repeat,
-          url('bg-ganamos-canva.png') center/cover no-repeat,
-          /* nombre con espacios/acentos, ya url-encoded */
-          url('mi%20cumplea%C3%B1os%20(1).png') center/cover no-repeat,
-          /* si lo ponés dentro de /img */
-          url('img/bg-ganamos-canva.jpg') center/cover no-repeat,
-          url('img/bg-ganamos-canva.png') center/cover no-repeat,
-          radial-gradient(1200px 800px at 50% 50%, #1b1030, #0a0810);
-        filter:saturate(1.05); z-index:-2;}
-      /* Sutil overlay para mejorar legibilidad del botón */
-      .hero::after{content:""; position:fixed; inset:0; background:radial-gradient(1200px 800px at 50% 85%, rgba(10,10,20,.0), rgba(10,10,20,.35) 60%, rgba(10,10,20,.7) 100%); z-index:-1}
+    .container{min-height:100dvh; display:flex; flex-direction:column; padding:16px}
+    header .logo{display:none} /* usamos el logo del fondo */
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-      .cta-wrap{width:100%; max-width:720px; text-align:center; margin-bottom:clamp(6vh,10svh,12vh);}      
-      .cta{display:inline-flex; align-items:center; gap:10px; padding:16px 24px; border-radius:999px; text-decoration:none; font-weight:800; letter-spacing:.2px; background:var(--wa); color:#0b0f12; box-shadow:0 18px 40px rgba(37,211,102,.35); transition:transform .15s ease, box-shadow .15s ease;}
-      .cta:hover{transform:translateY(-1px); box-shadow:0 22px 46px rgba(37,211,102,.45)}
-      .cta:active{transform:translateY(0)}
-      .cta svg{width:18px; height:18px}
+    main{display:flex; flex-direction:column; flex:1; padding-top:var(--offset-logo)}
 
-      .legal{margin-top:12px; font-size:12px; color:var(--muted); text-shadow:0 1px 2px rgba(0,0,0,.6)}
+    /* ====== Galería 3D (3 imágenes en bucle) ====== */
+    .gallery{position:relative; width:100%; height:var(--gallery-height); margin-bottom:var(--gap-after-gallery)}
+    .stage{position:absolute; inset:0; perspective:900px}
+    .card{position:absolute; top:var(--cards-center); left:50%; width:54%; aspect-ratio:3/4; border-radius:16px; overflow:hidden;
+      background:#2a0b55 center/cover no-repeat; box-shadow:0 10px 24px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.06) inset;
+      transform:translate(-50%,-50%); transition:transform .25s ease, box-shadow .25s ease, opacity .25s ease}
+    .card.center{transform:translate(-50%,-50%) scale(1.06) rotateY(0); z-index:3}
+    .card.left{  transform:translate(calc(-50% - 34%),-50%) rotateY(12deg) scale(.82); }
+    .card.right{ transform:translate(calc(-50% + 34%),-50%) rotateY(-12deg) scale(.82); }
+    .nav{position:absolute; top:50%; transform:translateY(-50%); background:rgba(20,6,40,.55); border:0; color:#fff; width:38px; height:38px; border-radius:999px; font-size:22px; font-weight:700; box-shadow:0 0 0 1px rgba(139,60,255,.25) inset; display:grid; place-items:center;}
+    .nav.prev{left:6px}
+    .nav.next{right:6px}
 
-      /* En desktop, subimos un poco el botón para no tapar el centro del arte */
-      @media (min-width:920px){ .cta-wrap{margin-bottom:14vh} }
-    </style>
-  </head>
-  <body>
-    <section class="hero" role="main" aria-label="Landing con fondo Canva y botón a WhatsApp">
-      <div class="cta-wrap">
-        <a class="cta" data-wa="5491134498805" target="_blank" rel="noopener" aria-label="Abrir WhatsApp">
-          <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M19.11 17.41c-.29-.15-1.67-.82-1.93-.91-.26-.1-.45-.15-.64.15-.19.29-.74.91-.91 1.1-.17.19-.34.22-.63.07-.29-.15-1.22-.45-2.33-1.44-.86-.76-1.44-1.69-1.61-1.98-.17-.29-.02-.45.13-.59.13-.13.29-.34.43-.51.15-.17.19-.29.29-.48.1-.19.05-.37-.02-.51-.07-.15-.64-1.55-.88-2.12-.23-.56-.47-.49-.64-.49h-.55c-.19 0-.5.07-.76.37-.26.29-1 1-1 2.44 0 1.44 1.02 2.84 1.16 3.03.15.19 2.01 3.07 4.86 4.31.68.29 1.21.46 1.63.59.69.22 1.32.19 1.82.12.56-.08 1.67-.68 1.9-1.34.24-.66.24-1.22.17-1.34-.06-.12-.24-.19-.53-.34z"/><path d="M26.88 5.12C24.02 2.26 20.2.75 16.18.75S8.34 2.26 5.48 5.12A15.39 15.39 0 0 0 .75 16.18c0 2.69.69 5.34 2 7.67L1.06 31.25l7.58-1.92a15.48 15.48 0 0 0 7.54 1.95h.01c8.42 0 15.26-6.85 15.26-15.26 0-4.02-1.57-7.84-4.53-10.69zM16.2 28.5h-.01a12.31 12.31 0 0 1-6.28-1.72l-.45-.27-4.5 1.14 1.2-4.38-.29-.45a12.3 12.3 0 0 1-1.9-6.55c0-6.8 5.53-12.33 12.33-12.33 3.3 0 6.4 1.28 8.73 3.61a12.22 12.22 0 0 1 3.61 8.73c-.01 6.8-5.54 12.32-12.34 12.32z"/></svg>
-          Hola, quiero un usuario!
+    /* ====== Bloque medio ====== */
+    .mid-stack{display:flex; flex-direction:column; gap:12px}
+
+    /* Botón WhatsApp (verde y bien destacado) */
+    .btn-whatsapp{appearance:none; border:0; border-radius:999px; text-decoration:none; cursor:pointer; display:block;
+      background:linear-gradient(90deg, #2EE77A, var(--whats), #2EE77A); color:#06250f;
+      font-weight:800; font-size:18px; padding:14px 20px; text-align:center; letter-spacing:.2px;
+      box-shadow:0 8px 26px rgba(37,211,102,.45), inset 0 0 10px rgba(0,0,0,.08);} 
+    .btn-whatsapp:active{transform:translateY(1px)}
+
+    /* Cinta sutil para “ATENCIÓN LAS 24 HS” */
+    .ribbon{position:relative; border-radius:999px; text-align:center; font-weight:800; line-height:1.2;
+      font-size:16px; padding:12px 16px; color:#210c44; backdrop-filter:blur(6px);
+      background:linear-gradient(90deg, rgba(255,255,255,.40), rgba(255,255,255,.55), rgba(255,255,255,.40));
+      box-shadow:0 0 12px rgba(139,60,255,.20), inset 0 0 8px rgba(139,60,255,.16)}
+
+    /* Banners (Sorteo / Bonos) */
+    details.banner{border-radius:20px; background:rgba(20,6,40,.30); box-shadow:inset 0 0 0 1px rgba(139,60,255,.18)}
+    details.banner > summary{list-style:none; cursor:pointer; padding:10px 12px; font-weight:700; border-radius:20px;
+      display:flex; align-items:center; gap:8px; background:linear-gradient(90deg, rgba(139,60,255,.22), rgba(240,56,255,.22));
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:15px;}
+    details.banner > summary::-webkit-details-marker{display:none}
+    details.banner > summary:after{content:"▾"; margin-left:auto; font-weight:800}
+    details.banner[open] > summary:after{content:"▴"}
+    details.banner .content{padding:10px 14px 14px 14px; font-size:14px; line-height:1.5; opacity:.95}
+
+    /* Legal +18 colapsable y compacto */
+    footer{padding-top:var(--legal-top-gap); padding-bottom: calc(16px + env(safe-area-inset-bottom))}
+    .legal{border-radius:16px; background:rgba(20,6,40,.55); box-shadow:inset 0 0 0 1px rgba(139,60,255,.18)}
+    .legal details{margin:0}
+    .legal summary{list-style:none; cursor:pointer; padding:10px 14px; display:flex; align-items:center; gap:10px;
+      font-weight:800; font-size:14px; background:rgba(139,60,255,.18); border-radius:16px}
+    .legal summary::-webkit-details-marker{display:none}
+    .chip{display:inline-flex; align-items:center; justify-content:center; min-width:34px; padding:4px 8px;
+      border-radius:999px; background:rgba(139,60,255,.35); font-weight:800}
+    .legal .body{padding:10px 14px 14px 14px; font-size:12px; line-height:1.55; color:#e9dbff}
+  </style>
+</head>
+<body>
+  <div class="back-art" aria-hidden="true"></div>
+
+  <div class="container">
+    <header>
+      <h1 class="sr-only">GANAMOS.net</h1>
+    </header>
+
+    <main>
+      <!-- Galería 3D (3 imágenes en bucle) -->
+      <section class="gallery" aria-label="Juegos destacados">
+        <div class="stage">
+          <div class="card left"  aria-hidden="true"></div>
+          <div class="card center"></div>
+          <div class="card right" aria-hidden="true"></div>
+          <button class="nav prev" aria-label="Anterior">‹</button>
+          <button class="nav next" aria-label="Siguiente">›</button>
+        </div>
+      </section>
+
+      <section class="mid-stack" aria-label="Acciones principales">
+        <!-- WhatsApp: cambia el número acá (formato internacional sin +). -->
+        <a class="btn-whatsapp" data-wa="5491134498805" target="_blank" rel="noopener nofollow">
+          BONO 30% con tu primera carga
         </a>
-        <div class="legal">+18 · Juego Responsable · Promociones sujetas a TyC</div>
-      </div>
-    </section>
-    <script>
-    // Setea la línea de WhatsApp de forma simple.
-    // 1) Cambiá el valor de data-wa en el <a class="cta"> o
-    // 2) pasá ?wa=549XXXXXXXXXX por querystring para override sin redeploy.
+
+        <div class="ribbon">ATENCIÓN LAS 24 HS</div>
+
+        <details class="banner">
+          <summary>🎟️ Sorteo diario — participás con tu carga de hoy</summary>
+          <div class="content">
+            <p>Participás automáticamente con tu carga del día (mínimo $X).</p>
+            <p>Se sortean 5 premios de $Y.</p>
+            <p>Acreditación: al día siguiente por la mañana.</p>
+          </div>
+        </details>
+
+        <details class="banner">
+          <summary>🎁 Bonos exclusivos — consultalos por WhatsApp</summary>
+          <div class="content">
+            <p>Escribinos por WhatsApp para conocer los bonos exclusivos activos para tu cuenta.</p>
+          </div>
+        </details>
+      </section>
+
+      <footer>
+        <section class="legal" aria-label="Juego responsable">
+          <details>
+            <summary><span class="chip">+18</span> Juego responsable</summary>
+            <div class="body">
+              <p><strong>Participar implica riesgos.</strong> Jugá con moderación y sólo si sos mayor de 18 años.
+              Si sentís que deja de ser entretenimiento, pedí ayuda profesional y considerá opciones de autoexclusión según tu jurisdicción.</p>
+              <details>
+                <summary><strong>Términos y Condiciones</strong></summary>
+                <div class="body">Las promociones y bonos están sujetos a reglas y requisitos de liberación. Los montos, topes y disponibilidad pueden variar sin previo aviso.</div>
+              </details>
+              <details>
+                <summary><strong>Política de Privacidad</strong></summary>
+                <div class="body">Al contactarnos por WhatsApp aceptás el uso de tus datos para responder consultas y fines comerciales relacionados. Podés solicitar la baja/actualización.</div>
+              </details>
+            </div>
+          </details>
+        </section>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Enlace de WhatsApp (con fallback por querystring ?wa=...) -->
+  <script>
     (function(){
-      const a = document.querySelector('.cta');
+      const a = document.querySelector('.btn-whatsapp');
       const qs = new URLSearchParams(location.search);
       const waFromQS = qs.get('wa');
       const raw = (waFromQS || a.getAttribute('data-wa') || '').toString();
-      const num = raw.replace(/[^0-9]/g,''); // limpia caracteres
+      const num = raw.replace(/[^0-9]/g,'');
       const msg = 'Hola, quiero un usuario!';
       if(num.length){ a.href = `https://wa.me/${num}?text=${encodeURIComponent(msg)}`; }
       else { a.href = '#'; a.title = 'Falta configurar número de WhatsApp'; }
+    })();
+  </script>
+
+  <!-- Carrusel 3D (bucle). Dejá los archivos en la raíz con estos nombres o cambiá el array IMGS. -->
+  <script>
+    (function(){
+      const IMGS = [
+        'jokers-jewels.png',
+        'sugar-rush.png',
+        'sweet-bonanza.png'
+      ];
+      const stage = document.querySelector('.stage');
+      if(!stage) return;
+      const left = stage.querySelector('.card.left');
+      const center = stage.querySelector('.card.center');
+      const right = stage.querySelector('.card.right');
+      const prev = stage.querySelector('.nav.prev');
+      const next = stage.querySelector('.nav.next');
+      let i = 0; // índice central
+
+      function paintPlaceholder(){
+        const bg = 'linear-gradient(180deg, rgba(139,60,255,.35), rgba(240,56,255,.35))';
+        left.style.background = center.style.background = right.style.background = bg;
+        prev.style.display = next.style.display = 'none';
+      }
+
+      function render(){
+        const n = IMGS.length;
+        if(!n){ paintPlaceholder(); return; }
+        const L = (i-1+n)%n, C = i, R = (i+1)%n;
+        left.style.backgroundImage = `url('${IMGS[L]}')`;
+        center.style.backgroundImage = `url('${IMGS[C]}')`;
+        right.style.backgroundImage = `url('${IMGS[R]}')`;
+        const showNav = n >= 2; prev.style.display = next.style.display = showNav ? 'grid' : 'none';
+      }
+      function go(dir){ i = (i + dir + IMGS.length) % IMGS.length; render(); }
+      prev && prev.addEventListener('click', ()=>go(-1));
+      next && next.addEventListener('click', ()=>go(1));
+      // Swipe touch
+      let sx = 0; stage.addEventListener('touchstart', e=>{ sx = e.touches[0].clientX; }, {passive:true});
+      stage.addEventListener('touchend', e=>{ const dx = e.changedTouches[0].clientX - sx; if(Math.abs(dx) > 40){ go(dx>0? -1: 1); } });
+      render();
     })();
   </script>
 </body>
