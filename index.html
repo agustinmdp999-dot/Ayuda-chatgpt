@@ -10,10 +10,10 @@
     :root{
       --ink:#0f0f1a; --text:#ffffff; --violet:#8b3cff; --magenta:#f038ff; --whats:#25D366;
       /* CONTROLES (móvil): editá sólo estos 3 números para ubicar todo sin romper nada */
-      --offset-logo: 170px;     /* espacio en px desde arriba hasta el inicio de la galería */
+      --offset-logo: 140px;     /* espacio en px desde arriba hasta el inicio de la galería */
       --gallery-height: 170px;  /* alto del bloque de galería */
-      --gap-after-gallery: 14px;/* espacio entre galería y botón */
-      --cards-center: 50%;      /* 50% centra las tarjetas dentro de la galería (menor = más arriba) */
+      --gap-after-gallery: 10px;/* espacio entre galería y botón */
+      --cards-center: 46%;      /* 50% centra las tarjetas dentro de la galería (menor = más arriba) */
       --legal-top-gap: 7vh;     /* distancia del legal respecto del último texto */
     }
     *{box-sizing:border-box}
@@ -173,9 +173,9 @@
     (function(){
       // Reemplazá/extendé esta lista con tus imágenes reales
       const IMGS = [
-        './assets/juego1.webp.jpeg',
-        './assets/juego2.webp.jpeg',
-        './assets/juego3.webp.jpeg'
+        './assets/juego1.webp',
+        './assets/juego2.webp',
+        './assets/juego3.webp'
       ];
       const stage = document.querySelector('.stage');
       if(!stage) return;
