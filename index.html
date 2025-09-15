@@ -3,65 +3,63 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>GANAMOS.net</title>
-  <meta name="description" content="Ganamos.net • Bono 30% primera carga • Atención 24 hs • Juego responsable +18" />
+  <title>GANAMOS.net — Bono 30% primera carga</title>
+  <meta name="description" content="Ganamos.net • Bono 30% con tu primera carga • Atención 24 hs • Juego responsable +18" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     :root{
-      --violet:#8b3cff; --magenta:#f038ff; --ink:#1d0b3f; --text:#ffffff;
-      /* Ajustá estos valores para alinear con tu imagen de fondo (MÓVIL) */
-      --mid-top:44vh;          /* espacio desde arriba hasta el bloque medio (btn+banner) */
-      --mid-bottom:20vh;       /* espacio desde el bloque medio hasta el resto */
-      --legal-top-gap:6vh;     /* distancia del legal respecto del texto inferior del fondo */
+      --ink:#0f0f1a; --text:#ffffff; --violet:#8b3cff; --magenta:#f038ff; --whats:#25D366;
+      /* Ajustes rápidos (MÓVIL): mové estos valores sin tocar el HTML */
+      --spacer-top: 28vh;    /* espacio debajo del logo del fondo para tus imágenes */
+      --gap-mid: 12px;       /* separación entre botón, 24HS y banner */
+      --legal-top-gap: 6vh;  /* distancia del legal respecto del último texto */
     }
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{
-      margin:0; color:var(--text); font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    body{margin:0; color:var(--text); font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       background: radial-gradient(60% 70% at 15% 10%, rgba(139,60,255,.25) 0%, rgba(139,60,255,0) 60%),
                   linear-gradient(180deg,#1a0335 0%, #0a0418 100%);
-      overflow-x:hidden;
-    }
-    /* Fondo basado en tu arte móvil (archivo en la RAÍZ) */
+      overflow-x:hidden;}
+    /* Fondo móvil: tu arte SIN textos (solo logo arriba) — archivo en la RAÍZ */
     .back-art{position:fixed; inset:0; pointer-events:none; opacity:.28; mix-blend-mode:screen;
       background:url('./Ganamos%20Publi.png') center/cover no-repeat;}
 
-    .container{min-height:100dvh; display:flex; flex-direction:column; padding:16px; gap:12px}
-    header .logo{display:none} /* ocultamos el texto GANAMOS.net: se ve el del fondo */
+    .container{min-height:100dvh; display:flex; flex-direction:column; padding:16px}
+    header .logo{display:none} /* usamos el logo del fondo */
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-    main{display:flex; flex-direction:column; gap:12px}
+    main{display:flex; flex-direction:column}
+    .spacer{height:var(--spacer-top)}
 
-    /* Bloque medio: botón + banner, posicionado entre los 2 textos del fondo */
-    .mid-stack{display:flex; flex-direction:column; gap:12px;
-      padding-top:var(--mid-top); padding-bottom:var(--mid-bottom);}
+    .mid-stack{display:flex; flex-direction:column; gap:var(--gap-mid)}
 
-    .btn-whatsapp{
-      appearance:none; border:0; border-radius:999px; text-decoration:none; cursor:pointer;
-      background:linear-gradient(90deg,#ffffff,#f3e9ff,#ffffff); color:var(--ink);
-      font-weight:800; font-size:18px; padding:14px 20px; text-align:center;
-      box-shadow:0 0 26px rgba(139,60,255,.55), inset 0 0 10px rgba(139,60,255,.25);
-    }
+    /* Botón WhatsApp (verde y bien destacado) */
+    .btn-whatsapp{appearance:none; border:0; border-radius:999px; text-decoration:none; cursor:pointer; display:block;
+      background:linear-gradient(90deg, #2EE77A, var(--whats), #2EE77A); color:#06250f;
+      font-weight:800; font-size:18px; padding:14px 20px; text-align:center; letter-spacing:.2px;
+      box-shadow:0 8px 26px rgba(37,211,102,.45), inset 0 0 10px rgba(0,0,0,.08);} 
+    .btn-whatsapp:active{transform:translateY(1px)}
 
-    /* Banner Sorteo diario (colapsable) */
-    details.banner{border-radius:20px; background:rgba(20,6,40,.55);
-      box-shadow:inset 0 0 0 1px rgba(139,60,255,.25);}
-    details.banner > summary{
-      list-style:none; cursor:pointer; padding:14px 16px; font-weight:700;
-      border-radius:20px; display:flex; align-items:center; gap:8px;
-      background:linear-gradient(90deg, rgba(139,60,255,.5), rgba(240,56,255,.5));
-    }
+    /* Cinta sutil para “ATENCIÓN LAS 24 HS” */
+    .ribbon{position:relative; border-radius:999px; text-align:center; font-weight:800; line-height:1.2;
+      font-size:16px; padding:12px 16px; color:#210c44; backdrop-filter:blur(6px);
+      background:linear-gradient(90deg, rgba(255,255,255,.55), rgba(255,255,255,.75), rgba(255,255,255,.55));
+      box-shadow:0 0 18px rgba(139,60,255,.35), inset 0 0 10px rgba(139,60,255,.25)}
+
+    /* Banner Sorteo diario (cerrado por defecto) */
+    details.banner{border-radius:20px; background:rgba(20,6,40,.45); box-shadow:inset 0 0 0 1px rgba(139,60,255,.25)}
+    details.banner > summary{list-style:none; cursor:pointer; padding:12px 14px; font-weight:700; border-radius:20px;
+      display:flex; align-items:center; gap:8px; background:linear-gradient(90deg, rgba(139,60,255,.35), rgba(240,56,255,.35));}
     details.banner > summary::-webkit-details-marker{display:none}
     details.banner > summary:after{content:"▾"; margin-left:auto; font-weight:800}
     details.banner[open] > summary:after{content:"▴"}
-    details.banner .content{padding:12px 16px 16px 16px; font-size:14px; line-height:1.5; opacity:.95}
+    details.banner .content{padding:10px 14px 14px 14px; font-size:14px; line-height:1.5; opacity:.95}
 
-    /* Legal colapsable compacto (debajo del texto inferior del fondo) */
+    /* Legal +18 colapsable y compacto */
     footer{padding-top:var(--legal-top-gap); padding-bottom:16px}
     .legal{border-radius:16px; background:rgba(20,6,40,.55); box-shadow:inset 0 0 0 1px rgba(139,60,255,.18)}
     .legal details{margin:0}
-    .legal summary{
-      list-style:none; cursor:pointer; padding:10px 14px; display:flex; align-items:center; gap:10px;
+    .legal summary{list-style:none; cursor:pointer; padding:10px 14px; display:flex; align-items:center; gap:10px;
       font-weight:800; font-size:14px; background:rgba(139,60,255,.18); border-radius:16px}
     .legal summary::-webkit-details-marker{display:none}
     .chip{display:inline-flex; align-items:center; justify-content:center; min-width:34px; padding:4px 8px;
@@ -78,10 +76,16 @@
     </header>
 
     <main>
+      <!-- Dejá este espacio libre para tus imágenes, bajo el logo del fondo -->
+      <div class="spacer" aria-hidden="true"></div>
+
       <section class="mid-stack" aria-label="Acciones principales">
-        <!-- Reemplazá TU_NUMERO y MENSAJE_URL_ENCODEADO -->
-        <a class="btn-whatsapp" target="_blank" rel="noopener nofollow"
-           href="https://wa.me/TU_NUMERO?text=MENSAJE_URL_ENCODEADO">Chatear por WhatsApp</a>
+        <!-- WhatsApp: el texto del botón es el del bono. El número rota por JS (abajo). -->
+        <a class="btn-whatsapp" target="_blank" rel="noopener nofollow" href="https://wa.me/TU_NUMERO?text=Hola%20quiero%20mi%20bono%2030%25">
+          BONO 30% con tu primera carga
+        </a>
+
+        <div class="ribbon">ATENCIÓN LAS 24 HS</div>
 
         <details class="banner">
           <summary>🎟️ Sorteo diario — participás con tu carga de hoy</summary>
@@ -98,7 +102,7 @@
           <details>
             <summary><span class="chip">+18</span> Juego responsable</summary>
             <div class="body">
-              <p><strong>Participar implica riesgos.</strong> Jugá con moderación y sólo si sos mayor de 18 años. 
+              <p><strong>Participar implica riesgos.</strong> Jugá con moderación y sólo si sos mayor de 18 años.
               Si sentís que deja de ser entretenimiento, pedí ayuda profesional y considerá opciones de autoexclusión según tu jurisdicción.</p>
               <details>
                 <summary><strong>Términos y Condiciones</strong></summary>
@@ -114,5 +118,23 @@
       </footer>
     </main>
   </div>
+
+  <!-- Rotación de líneas de WhatsApp (opcional, sin backend). Cambia cada 30 min. -->
+  <script>
+    (function(){
+      const LINEAS = [
+        // Reemplazá con tus líneas en formato internacional, sin + ni espacios. Ej: "5492231234567"
+        // "549XXXXXXXXXX", "549YYYYYYYYYY", "549ZZZZZZZZZZ"
+      ];
+      const MENSAJE = "Hola, quiero mi bono 30%";
+      var href = document.querySelector('.btn-whatsapp').getAttribute('href');
+      if (Array.isArray(LINEAS) && LINEAS.length > 0) {
+        const slot = Math.floor(Date.now()/(30*60*1000)) % LINEAS.length; // cada 30 minutos
+        const num = LINEAS[slot];
+        href = `https://wa.me/${num}?text=${encodeURIComponent(MENSAJE)}`;
+      }
+      document.querySelector('.btn-whatsapp').setAttribute('href', href);
+    })();
+  </script>
 </body>
 </html>
