@@ -7,8 +7,15 @@
   <meta name="description" content="Ganamos.net • Bono 30% con tu primera carga • Atención 24 hs • Juego responsable +18" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-   :root{ ...; --cards-center: 44%; }
-
+    :root{
+      --ink:#0f0f1a; --text:#ffffff; --violet:#8b3cff; --magenta:#f038ff; --whats:#25D366;
+      /* CONTROLES (móvil): editá sólo estos 3 números para ubicar todo sin romper nada */
+      --offset-logo: 170px;     /* espacio en px desde arriba hasta el inicio de la galería */
+      --gallery-height: 170px;  /* alto del bloque de galería */
+      --gap-after-gallery: 14px;/* espacio entre galería y botón */
+      --cards-center: 50%;      /* 50% centra las tarjetas dentro de la galería (menor = más arriba) */
+      --legal-top-gap: 7vh;     /* distancia del legal respecto del último texto */
+    }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{margin:0; color:var(--text); font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -23,25 +30,23 @@
     header .logo{display:none} /* usamos el logo del fondo */
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-    main{display:flex; flex-direction:column; flex:1}
-    .spacer{height:var(--spacer-top)}
+    main{display:flex; flex-direction:column; flex:1; padding-top:var(--offset-logo)}
 
     /* ====== Galería 3D (3 imágenes en bucle) ====== */
-    .gallery{display:flex; flex-direction:column; align-items:center; gap:8px; margin-bottom:12px}
-    .stage{position:relative; width:100%; height:180px; min-height:180px; perspective:900px}
-    .card{position:absolute; top:var(--cards-center, 50%); left:50%; width:58%; aspect-ratio:3/4; border-radius:16px; overflow:hidden;
+    .gallery{position:relative; width:100%; height:var(--gallery-height); margin-bottom:var(--gap-after-gallery)}
+    .stage{position:absolute; inset:0; perspective:900px}
+    .card{position:absolute; top:var(--cards-center); left:50%; width:58%; aspect-ratio:3/4; border-radius:16px; overflow:hidden;
       background:#2a0b55 center/cover no-repeat; box-shadow:0 10px 24px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.06) inset;
       transform:translate(-50%,-50%); transition:transform .25s ease, box-shadow .25s ease, opacity .25s ease}
     .card.center{transform:translate(-50%,-50%) scale(1.06) rotateY(0); z-index:3}
-    .card.left{transform:translate(calc(-50% - 36%),-50%) rotateY(12deg) scale(.82); z-index:2; opacity:.78}
-    .card.right{transform:translate(calc(-50% + 36%),-50%) rotateY(-12deg) scale(.82); z-index:2; opacity:.78}
+    .card.left{transform:translate(calc(-50% - 36%),calc(-50%)) rotateY(12deg) scale(.82); z-index:2; opacity:.78}
+    .card.right{transform:translate(calc(-50% + 36%),calc(-50%)) rotateY(-12deg) scale(.82); z-index:2; opacity:.78}
     .nav{position:absolute; top:50%; transform:translateY(-50%); background:rgba(20,6,40,.55); border:0; color:#fff; width:38px; height:38px; border-radius:999px; font-size:22px; font-weight:700; box-shadow:0 0 0 1px rgba(139,60,255,.25) inset; display:grid; place-items:center;}
     .nav.prev{left:6px}
     .nav.next{right:6px}
-    @supports not (aspect-ratio: 1/1){ .card{height:130px;} }
 
     /* ====== Bloque medio ====== */
-    .mid-stack{display:flex; flex-direction:column; gap:var(--gap-mid)}
+    .mid-stack{display:flex; flex-direction:column; gap:12px}
 
     /* Botón WhatsApp (verde y bien destacado) */
     .btn-whatsapp{appearance:none; border:0; border-radius:999px; text-decoration:none; cursor:pointer; display:block;
@@ -87,9 +92,6 @@
     </header>
 
     <main>
-      <!-- Dejá este espacio libre para tus imágenes bajo el logo del fondo -->
-      <div class="spacer" aria-hidden="true"></div>
-
       <!-- Galería 3D (3 imágenes en bucle) -->
       <section class="gallery" aria-label="Juegos destacados">
         <div class="stage">
@@ -197,7 +199,6 @@
         left.style.backgroundImage = `url('${IMGS[L]}')`;
         center.style.backgroundImage = `url('${IMGS[C]}')`;
         right.style.backgroundImage = `url('${IMGS[R]}')`;
-        // con 3 imágenes las flechas están visibles; con menos de 2 se ocultan
         const showNav = n >= 2; prev.style.display = next.style.display = showNav ? 'grid' : 'none';
       }
       function go(dir){ i = (i + dir + IMGS.length) % IMGS.length; render(); }
