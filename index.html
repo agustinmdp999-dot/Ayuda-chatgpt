@@ -117,23 +117,46 @@
       :root{ --gallery-height:190px; --cards-center:45%; --gap-after-gallery:36px; }
     }
 
-    /* ===== Desktop: fondo dedicado y más aire ===== */
-    @media (min-width:1024px){
-      :root{ --gallery-height:380px; --gap-after-gallery:96px; }
-      .card{width:30%}
-      .card.center{transform:translate(-50%,-50%) scale(1.03)}
-      .back-art{
-        opacity:.6;
-        background:
-          url('./assets/bg-ganamos-desktop.jpg') center/cover no-repeat,
-          radial-gradient(1200px 800px at 50% 50%, #1b1030, #0a0810);
-        background-attachment: fixed;
-      }
-    }
-    @media (min-width:1440px){
-      :root{ --gallery-height:420px; --gap-after-gallery:96px; }
-      .card{width:28%}
-    }
+    /* ===== Desktop: fondo dedicado y más aire ===== */* ===== Desktop compacto ===== */
+@media (min-width: 1024px){
+  :root{
+    /* Altura y posición del carrusel más chicos */
+    --gallery-height: 220px;   /* antes 380px */
+    --gap-after-gallery: 72px; /* espacio hasta el botón */
+    --cards-center: 48%;
+  }
+
+  /* Cartas más angostas y con menos escala */
+  .card{width:22%} /* antes 30% */
+  .card.center{
+    transform: translate(-50%,-50%) scale(0.96); /* antes 1.03 */
+  }
+  .card.left{
+    transform: translate(calc(-50% - 28%),-50%) rotateY(12deg) scale(.78);
+  }
+  .card.right{
+    transform: translate(calc(-50% + 28%),-50%) rotateY(-12deg) scale(.78);
+  }
+
+  /* Fondo desktop (queda igual) */
+  .back-art{
+    opacity:.6;
+    background:
+      url('./assets/bg-ganamos-desktop.jpg') center/cover no-repeat,
+      radial-gradient(1200px 800px at 50% 50%, #1b1030, #0a0810);
+    background-attachment: fixed;
+  }
+}
+
+/* ===== Desktop XL (monitores grandes) ===== */
+@media (min-width: 1440px){
+  :root{
+    --gallery-height: 260px;   /* antes 420px */
+    --gap-after-gallery: 80px;
+  }
+  .card{width:20%} /* aún más compacta en pantallas grandes */
+}
+
   </style>
 </head>
 <body>
