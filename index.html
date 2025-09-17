@@ -22,21 +22,31 @@
                   linear-gradient(180deg,#1a0335 0%, #0a0418 100%);
       overflow-x:hidden;}
     /* Fondo móvil: tu arte SIN textos (solo logo arriba) — archivo en la RAÍZ */
-    .back-art{position:fixed; inset:0; pointer-events:none; opacity:.28; mix-blend-mode:screen;
-      background:
-        /* IMAGEN: fondo principal (raíz o assets) */
-        url('./bg-ganamos-canva.jpg') center/cover no-repeat,
-        url('./bg-ganamos-canva.png') center/cover no-repeat,
-        url('./assets/bg-ganamos-canva.jpg') center/cover no-repeat,
-        url('./assets/bg-ganamos-canva.png') center/cover no-repeat,
-        /* IMAGEN: nombre con espacios (url-encoded) */
-        url('./mi%20cumplea%C3%B1os%20(1).png') center/cover no-repeat,
-        url('./assets/mi%20cumplea%C3%B1os%20(1).png') center/cover no-repeat,
-        /* alternativas si las pusiste en /img */
-        url('./img/bg-ganamos-canva.jpg') center/cover no-repeat,
-        url('./img/bg-ganamos-canva.png') center/cover no-repeat,
-        radial-gradient(1200px 800px at 50% 50%, #1b1030, #0a0810);
-    }
+/* Fondo base (móvil/tablet) */
+.back-art{
+  position:fixed; inset:0; pointer-events:none;
+  /* subo opacidad y saco blend para que se vea más */
+  opacity:.55; 
+  mix-blend-mode:normal;
+  background:
+    url('./assets/bg-ganamos-canva.jpg') center/cover no-repeat,
+    url('./assets/bg-ganamos-canva.png') center/cover no-repeat,
+    radial-gradient(1200px 800px at 50% 50%, #1b1030, #0a0810);
+}
+
+/* Desktop: usa el fondo dedicado y más aire abajo entre carrusel y CTA */
+@media (min-width: 1024px){
+  :root{ --gallery-height: 380px; --gap-after-gallery: 96px; }
+  .card.center{ transform:translate(-50%,-50%) scale(1.03); }
+  .back-art{
+    opacity:.6;                 /* un poco más visible en desktop */
+    background:
+      url('./assets/bg-ganamos-desktop.jpg') center/cover no-repeat,
+      radial-gradient(1200px 800px at 50% 50%, #1b1030, #0a0810);
+    /* Si querés que “se pegue” al scroll en desktop: */
+    background-attachment: fixed;
+  }
+}
 
     .container{min-height:100dvh; display:flex; flex-direction:column; padding:16px}
     header .logo{display:none} /* usamos el logo del fondo */
