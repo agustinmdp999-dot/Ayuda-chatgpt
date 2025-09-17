@@ -211,32 +211,63 @@
   <script>
 <!-- WhatsApp: rotación de líneas cada 30 min -->
 <script>
+<!-- WhatsApp: rotación + compatibilidad in-app -->
+<script>
 (function(){
-  // Agregá todas tus líneas en formato internacional, sin + ni espacios
-  const LINES = ['5491134498805','5492235347328','5491126407383'];  // <- sumá más si querés
-  const PERIOD_MIN = 30;                            // cada cuánto rota
+  // 1) Tus líneas (formato internacional, sin + ni espacios)
+  const LINES = ['5491134498805','5492235347328','5491126407383']; // agregá/quitá números
+  const PERIOD_MIN = 30;                             // rota cada 30 min
   const MSG = 'Hola, quiero un usuario!';
 
   const a = document.querySelector('.btn-whatsapp');
-  const qs = new URLSearchParams(location.search);
-  const override = (qs.get('wa')||'').replace(/[^0-9]/g,''); // permite ?wa=549...
-  
-  let num = '';
-  if (override) {
-    num = override;                                  // prioridad al querystring
-  } else if (LINES.length) {
-    const slot = Math.floor(Math.random()*LINES.length);
-    num = LINES[slot];                               // rota por franja de tiempo
-  } else {
-    num = (a.getAttribute('data-wa')||'').replace(/[^0-9]/g,''); // fallback
+
+  function pickNumber(){
+    const qs = new URLSearchParams(location.search);
+    const override = (qs.get('wa')||'').replace(/[^0-9]/g,''); // permite ?wa=549...
+    if (override) return override;
+    if (LINES.length === 1) return LINES[0];
+    const slot = Math.floor(Date.now()/(PERIOD_MIN*60*1000)) % LINES.length;
+    return LINES[slot];
   }
 
-  if (num) a.href = `https://wa.me/${num}?text=${encodeURIComponent(MSG)}`;
-  else { a.href = '#'; a.title = 'Falta configurar número de WhatsApp'; }
-})();
-</script>
+  function buildUrl(num){
+    const enc = encodeURIComponent(MSG);
+    // api.whatsapp.com funciona mejor dentro de navegadores embebidos
+    return `https://api.whatsapp.com/send/?phone=${num}&text=${enc}`;
+    // Si alguna vez querés volver a wa.me:
+    // return `https://wa.me/${num}?text=${enc}`;
+  }
 
-  </script>
+  function setHref(){
+    const num = pickNumber();
+    if (!num) { a.href = '#'; a.title = 'Falta configurar número de WhatsApp'; return; }
+    a.href = buildUrl(num);
+  }
+
+  // Fallback por si el navegador bloquea el pop-up
+  function onClick(e){
+    // si ya tenemos href, forzamos apertura controlada
+    const url = a.href;
+    if (!url || url === '#') return; // nada que hacer
+    e.preventDefault();
+    try {
+      const win = window.open(url, '_blank');
+      // si el pop-up fue bloqueado, navegamos en la misma pestaña
+      if (!win || win.closed || typeof win.closed === 'undefined') {
+        window.location.href = url;
+      }
+    } catch (err) {
+      window.location.href = url;
+    }
+  }
+
+  setHref();
+  a.addEventListener('click', onClick);
+
+  // Recalcula cuando volvés a la página desde BFCache (iOS/Android)
+  window.addEventListener('pageshow', setHref);
+})();
+
 
   <!-- Carrusel: carga imágenes EXACTAS de /assets -->
   <script>
