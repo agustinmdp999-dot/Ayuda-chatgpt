@@ -209,16 +209,33 @@
 
   <!-- WhatsApp -->
   <script>
-    (function(){
-      const a = document.querySelector('.btn-whatsapp');
-      const qs = new URLSearchParams(location.search);
-      const waFromQS = qs.get('wa');
-      const raw = (waFromQS || a.getAttribute('data-wa') || '').toString();
-      const num = raw.replace(/[^0-9]/g,'');
-      const msg = 'Hola, quiero un usuario!';
-      if(num.length){ a.href = `https://wa.me/${num}?text=${encodeURIComponent(msg)}`; }
-      else { a.href = '#'; a.title = 'Falta configurar número de WhatsApp'; }
-    })();
+<!-- WhatsApp: rotación de líneas cada 30 min -->
+<script>
+(function(){
+  // Agregá todas tus líneas en formato internacional, sin + ni espacios
+  const LINES = ['5491134498805','5492235347328','5491126407383'];  // <- sumá más si querés
+  const PERIOD_MIN = 30;                            // cada cuánto rota
+  const MSG = 'Hola, quiero un usuario!';
+
+  const a = document.querySelector('.btn-whatsapp');
+  const qs = new URLSearchParams(location.search);
+  const override = (qs.get('wa')||'').replace(/[^0-9]/g,''); // permite ?wa=549...
+  
+  let num = '';
+  if (override) {
+    num = override;                                  // prioridad al querystring
+  } else if (LINES.length) {
+    const slot = Math.floor(Math.random()*LINES.length);
+    num = LINES[slot];                               // rota por franja de tiempo
+  } else {
+    num = (a.getAttribute('data-wa')||'').replace(/[^0-9]/g,''); // fallback
+  }
+
+  if (num) a.href = `https://wa.me/${num}?text=${encodeURIComponent(MSG)}`;
+  else { a.href = '#'; a.title = 'Falta configurar número de WhatsApp'; }
+})();
+</script>
+
   </script>
 
   <!-- Carrusel: carga imágenes EXACTAS de /assets -->
