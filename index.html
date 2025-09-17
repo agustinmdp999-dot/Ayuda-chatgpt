@@ -22,8 +22,7 @@
       overflow-x:hidden;
     }
 
-    /* ===== FONDO ===== */
-    /* Móviles/Tablet: usa bg-ganamos-canva.jpg en la raíz (con fallbacks a /assets) */
+    /* Fondo: móvil/tablet usa bg-ganamos-canva.jpg (raíz); desktop usa el de /assets */
     .back-art{
       position:fixed; inset:0; pointer-events:none;
       opacity:.55; mix-blend-mode:normal;
@@ -38,7 +37,7 @@
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
     main{display:flex; flex-direction:column; flex:1; padding-top:var(--offset-logo)}
 
-    /* ===== Galería 3D ===== */
+    /* Galería 3D */
     .gallery{position:relative; width:100%; height:var(--gallery-height); margin-bottom:var(--gap-after-gallery)}
     .stage{position:absolute; inset:0; perspective:900px}
     .card{
@@ -61,9 +60,8 @@
     }
     .nav.prev{left:6px} .nav.next{right:6px}
 
-    /* ===== Bloque medio ===== */
+    /* Bloque medio */
     .mid-stack{display:flex; flex-direction:column; gap:12px; max-width:720px; margin-inline:auto}
-
     .btn-whatsapp{
       appearance:none; border:0; border-radius:999px; text-decoration:none; cursor:pointer; display:block;
       background:linear-gradient(90deg, #2EE77A, var(--whats), #2EE77A); color:#06250f;
@@ -101,7 +99,7 @@
       border-radius:999px; background:rgba(139,60,255,.35); font-weight:800}
     .legal .body{padding:10px 14px 14px 14px; font-size:12px; line-height:1.55; color:#e9dbff}
 
-    /* ===== Ajustes mobile finos ===== */
+    /* Móvil finos: más aire entre galería y botón */
     @media (max-width:360px){
       :root{ --gallery-height:150px; --cards-center:47%; --gap-after-gallery:56px; --legal-top-gap:4vh; }
       .btn-whatsapp{font-size:16px; padding:12px 16px}
@@ -117,12 +115,12 @@
       :root{ --gallery-height:190px; --cards-center:45%; --gap-after-gallery:64px; }
     }
 
-    /* ===== Desktop compacto v2 (PC) ===== */
+    /* Desktop compacto v2 */
     @media (min-width:1024px){
       :root{
-        --offset-logo: 180px;        /* deja visible el logo del fondo */
-        --gallery-height: 180px;     /* carrusel más chico */
-        --gap-after-gallery: 84px;   /* aire hasta el botón */
+        --offset-logo: 180px;
+        --gallery-height: 180px;
+        --gap-after-gallery: 84px;
         --cards-center: 50%;
       }
       .card{width:18%}
@@ -164,7 +162,7 @@
 
       <!-- Acciones -->
       <section class="mid-stack" aria-label="Acciones principales">
-        <a class="btn-whatsapp" data-wa="5491134498805" target="_blank" rel="noopener nofollow">
+        <a class="btn-whatsapp" href="#" data-wa="5491134498805" target="_blank" rel="nofollow noopener">
           BONO 30% con tu primera carga
         </a>
 
@@ -207,128 +205,106 @@
     </main>
   </div>
 
-  <!-- WhatsApp -->
+  <!-- WhatsApp: rotación + compatibilidad in-app -->
   <script>
-<!-- WhatsApp: rotación de líneas cada 30 min -->
-<script>
-<!-- WhatsApp: rotación + compatibilidad in-app -->
-<script>
-(function(){
-  // 1) Tus líneas (formato internacional, sin + ni espacios)
-  const LINES = ['5491134498805','5492235347328','5491126407383']; // agregá/quitá números
-  const PERIOD_MIN = 30;                             // rota cada 30 min
-  const MSG = 'Hola, quiero un usuario!';
+  (function(){
+    const LINES = ['5491134498805','5492235347328','5491126407383']; // agregá/quitá líneas
+    const PERIOD_MIN = 30;
+    const MSG = 'Hola, quiero un usuario!';
+    const a = document.querySelector('.btn-whatsapp');
+    if(!a) return; // no rompe si falta el botón
 
-  const a = document.querySelector('.btn-whatsapp');
-
-  function pickNumber(){
-    const qs = new URLSearchParams(location.search);
-    const override = (qs.get('wa')||'').replace(/[^0-9]/g,''); // permite ?wa=549...
-    if (override) return override;
-    if (LINES.length === 1) return LINES[0];
-    const slot = Math.floor(Date.now()/(PERIOD_MIN*60*1000)) % LINES.length;
-    return LINES[slot];
-  }
-
-  function buildUrl(num){
-    const enc = encodeURIComponent(MSG);
-    // api.whatsapp.com funciona mejor dentro de navegadores embebidos
-    return `https://api.whatsapp.com/send/?phone=${num}&text=${enc}`;
-    // Si alguna vez querés volver a wa.me:
-    // return `https://wa.me/${num}?text=${enc}`;
-  }
-
-  function setHref(){
-    const num = pickNumber();
-    if (!num) { a.href = '#'; a.title = 'Falta configurar número de WhatsApp'; return; }
-    a.href = buildUrl(num);
-  }
-
-  // Fallback por si el navegador bloquea el pop-up
-  function onClick(e){
-    // si ya tenemos href, forzamos apertura controlada
-    const url = a.href;
-    if (!url || url === '#') return; // nada que hacer
-    e.preventDefault();
-    try {
-      const win = window.open(url, '_blank');
-      // si el pop-up fue bloqueado, navegamos en la misma pestaña
-      if (!win || win.closed || typeof win.closed === 'undefined') {
-        window.location.href = url;
-      }
-    } catch (err) {
-      window.location.href = url;
+    function pickNumber(){
+      const qs = new URLSearchParams(location.search);
+      const override = (qs.get('wa')||'').replace(/[^0-9]/g,''); // ?wa=549...
+      if (override) return override;
+      if (LINES.length <= 1) return LINES[0] || (a.getAttribute('data-wa')||'').replace(/[^0-9]/g,'');
+      const slot = Math.floor(Math.random()*LINES.length);
+      return LINES[slot];
     }
-  }
+    function buildUrl(num){
+      const enc = encodeURIComponent(MSG);
+      return `https://api.whatsapp.com/send/?phone=${num}&text=${enc}`;
+    }
+    function setHref(){
+      const num = pickNumber();
+      if (num) a.href = buildUrl(num);
+      else { a.removeAttribute('href'); a.title = 'Falta configurar número de WhatsApp'; }
+    }
+    function onClick(e){
+      const url = a.getAttribute('href');
+      if (!url) return; // sin href, no hacemos nada
+      e.preventDefault();
+      let win = null;
+      try { win = window.open(url, '_blank'); } catch(e) {}
+      // Si el pop-up es bloqueado, navegamos en la misma pestaña
+      setTimeout(()=>{ if (!win || win.closed || typeof win.closed === 'undefined') window.location.href = url; }, 120);
+    }
 
-  setHref();
-  a.addEventListener('click', onClick);
+    setHref();
+    a.addEventListener('click', onClick, {passive:false});
+    window.addEventListener('pageshow', setHref); // re-calcula al volver
+  })();
+  </script>
 
-  // Recalcula cuando volvés a la página desde BFCache (iOS/Android)
-  window.addEventListener('pageshow', setHref);
-})();
-
-
-  <!-- Carrusel: carga imágenes EXACTAS de /assets -->
+  <!-- Carrusel: usa EXACTAMENTE estas rutas de /assets -->
   <script>
-    (function(){
-      const IMGS = [
-        'assets/big-bass-bonanza.png',
-        'assets/gates-of-olympus-1000.png',
-        'assets/great-rhino-megaways.png',
-        'assets/jokers-jewels.png',
-        'assets/sugar-rush-1000.png',
-        'assets/volcano-rising.png',
-        'assets/wild-wild-riches.png',
-        'assets/zeus-vs-hades-gods-of-war.png'
-      ];
+  (function(){
+    const IMGS = [
+      'assets/big-bass-bonanza.png',
+      'assets/gates-of-olympus-1000.png',
+      'assets/great-rhino-megaways.png',
+      'assets/jokers-jewels.png',
+      'assets/sugar-rush-1000.png',
+      'assets/volcano-rising.png',
+      'assets/wild-wild-riches.png',
+      'assets/zeus-vs-hades-gods-of-war.png'
+    ];
 
-      const stage = document.querySelector('.stage');
-      if(!stage) return;
-      const left = stage.querySelector('.card.left');
-      const center = stage.querySelector('.card.center');
-      const right = stage.querySelector('.card.right');
-      const prev = stage.querySelector('.nav.prev');
-      const next = stage.querySelector('.nav.next');
+    const stage = document.querySelector('.stage');
+    if(!stage) return;
 
-      let i = 0, ok = [];
+    const left = stage.querySelector('.card.left');
+    const center = stage.querySelector('.card.center');
+    const right = stage.querySelector('.card.right');
+    const prev = stage.querySelector('.nav.prev');
+    const next = stage.querySelector('.nav.next');
 
-      function load(src){
-        return new Promise(res=>{
-          const im = new Image();
-          im.onload = ()=>res({src, ok:true});
-          im.onerror = ()=>res({src, ok:false});
-          im.src = src + '?v=' + Date.now(); // evita caché tras subir archivos
-        });
-      }
+    let i = 0, ok = [];
 
-      function placeholder(){
-        const bg = 'linear-gradient(180deg, rgba(139,60,255,.35), rgba(240,56,255,.35))';
-        left.style.background = center.style.background = right.style.background = bg;
-        prev.style.display = next.style.display = 'none';
-      }
-
-      function render(){
-        if(!ok.length){ placeholder(); return; }
-        const n = ok.length;
-        const L = (i-1+n)%n, C = i, R = (i+1)%n;
-        left.style.backgroundImage   = `url('${ok[L]}')`;
-        center.style.backgroundImage = `url('${ok[C]}')`;
-        right.style.backgroundImage  = `url('${ok[R]}')`;
-        const showNav = n >= 2; prev.style.display = next.style.display = showNav ? 'grid' : 'none';
-      }
-
-      function go(dir){ i = (i + dir + ok.length) % ok.length; render(); }
-      prev && prev.addEventListener('click', ()=>go(-1));
-      next && next.addEventListener('click', ()=>go(1));
-      let sx=0; stage.addEventListener('touchstart', e=>{ sx=e.touches[0].clientX; }, {passive:true});
-      stage.addEventListener('touchend', e=>{ const dx=e.changedTouches[0].clientX - sx; if(Math.abs(dx)>40){ go(dx>0? -1 : 1); } });
-
-      Promise.all(IMGS.map(load)).then(rs=>{
-        ok = rs.filter(r=>r.ok).map(r=>r.src);
-        render();
+    function load(src){
+      return new Promise(res=>{
+        const im = new Image();
+        im.onload = ()=>res({src, ok:true});
+        im.onerror = ()=>res({src, ok:false});
+        im.src = src + '?v=' + Date.now(); // cache-busting suave
       });
-    })();
+    }
+    function placeholder(){
+      const bg = 'linear-gradient(180deg, rgba(139,60,255,.35), rgba(240,56,255,.35))';
+      left.style.background = center.style.background = right.style.background = bg;
+      prev.style.display = next.style.display = 'none';
+    }
+    function render(){
+      if(!ok.length){ placeholder(); return; }
+      const n = ok.length;
+      const L = (i-1+n)%n, C = i, R = (i+1)%n;
+      left.style.backgroundImage   = `url('${ok[L]}')`;
+      center.style.backgroundImage = `url('${ok[C]}')`;
+      right.style.backgroundImage  = `url('${ok[R]}')`;
+      const showNav = n >= 2; prev.style.display = next.style.display = showNav ? 'grid' : 'none';
+    }
+    function go(dir){ i = (i + dir + ok.length) % ok.length; render(); }
+    prev && prev.addEventListener('click', ()=>go(-1));
+    next && next.addEventListener('click', ()=>go(1));
+    let sx=0; stage.addEventListener('touchstart', e=>{ sx=e.touches[0].clientX; }, {passive:true});
+    stage.addEventListener('touchend', e=>{ const dx=e.changedTouches[0].clientX - sx; if(Math.abs(dx)>40){ go(dx>0? -1 : 1); } });
+
+    Promise.all(IMGS.map(load)).then(rs=>{
+      ok = rs.filter(r=>r.ok).map(r=>r.src);
+      render();
+    });
+  })();
   </script>
 </body>
 </html>
