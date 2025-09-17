@@ -1,130 +1,294 @@
-<style>
-:root{
-  --ink:#0f0f1a; --text:#ffffff; --violet:#8b3cff; --magenta:#f038ff; --whats:#25D366;
-  --offset-logo: 120px;
-  --gallery-height: 180px;
-  --gap-after-gallery: 16px;
-  --cards-center: 44%;
-  --legal-top-gap: 7vh;
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0; color:var(--text);
-  font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  background: radial-gradient(60% 70% at 15% 10%, rgba(139,60,255,.25) 0%, rgba(139,60,255,0) 60%),
-              linear-gradient(180deg,#1a0335 0%, #0a0418 100%);
-  overflow-x:hidden;
-}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>GANAMOS.net — Bono 30% primera carga</title>
+  <meta name="description" content="Ganamos.net • Bono 30% con tu primera carga • Atención 24 hs • Juego responsable +18" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --ink:#0f0f1a; --text:#ffffff; --violet:#8b3cff; --magenta:#f038ff; --whats:#25D366;
+      --offset-logo: 120px;      /* separa el bloque del header */
+      --gallery-height: 180px;   /* alto de la galería en mobile */
+      --gap-after-gallery: 16px; /* aire entre galería y botón */
+      --cards-center: 44%;       /* posición vertical del carrusel */
+      --legal-top-gap: 7vh;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--text);
+      font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(60% 70% at 15% 10%, rgba(139,60,255,.25) 0%, rgba(139,60,255,0) 60%),
+                  linear-gradient(180deg,#1a0335 0%, #0a0418 100%);
+      overflow-x:hidden;
+    }
 
-/* ===== Fondo con múltiples fallbacks ===== */
-.back-art{position:fixed; inset:0; pointer-events:none; opacity:.28; mix-blend-mode:screen;
-  background:
-    url('./bg-ganamos-canva.jpg') center/cover no-repeat,
-    url('./bg-ganamos-canva.png') center/cover no-repeat,
-    url('./mi%20cumplea%C3%B1os%20(1).png') center/cover no-repeat,
-    url('./img/bg-ganamos-canva.jpg') center/cover no-repeat,
-    url('./img/bg-ganamos-canva.png') center/cover no-repeat,
-    radial-gradient(1200px 800px at 50% 50%, #1b1030, #0a0810);
-}
+    /* ===== FONDO con múltiples fallbacks =====
+       Asegurate de subir al menos UNO de estos nombres:
+       - bg-ganamos-canva.jpg  (recomendado)
+       - bg-ganamos-canva.png
+       - mi cumpleaños (1).png   (si usás este, dejalo exactamente así)
+       Si usás carpeta /img, más abajo te muestro cómo cambiar rutas. */
+    .back-art{
+      position:fixed; inset:0; pointer-events:none; opacity:.28; mix-blend-mode:screen;
+      background:
+        /* IMAGEN: fondo principal (raíz) */
+        url('./bg-ganamos-canva.jpg') center/cover no-repeat,
+        url('./bg-ganamos-canva.png') center/cover no-repeat,
+        /* IMAGEN: nombre con espacios (url-encoded) */
+        url('./mi%20cumplea%C3%B1os%20(1).png') center/cover no-repeat,
+        /* IMAGEN: alternativas si las pusiste en /img */
+        url('./img/bg-ganamos-canva.jpg') center/cover no-repeat,
+        url('./img/bg-ganamos-canva.png') center/cover no-repeat,
+        radial-gradient(1200px 800px at 50% 50%, #1b1030, #0a0810);
+    }
 
-.container{min-height:100dvh; display:flex; flex-direction:column; padding:16px}
-header .logo{display:none}
-.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-main{display:flex; flex-direction:column; flex:1; padding-top:var(--offset-logo)}
+    .container{min-height:100dvh; display:flex; flex-direction:column; padding:16px}
+    header .logo{display:none}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-/* ===== Galería 3D ===== */
-.gallery{position:relative; width:100%; height:var(--gallery-height); margin-bottom:var(--gap-after-gallery)}
-.stage{position:absolute; inset:0; perspective:900px}
-.card{
-  position:absolute; top:var(--cards-center); left:50%;
-  width:58%; aspect-ratio:3/4;
-  border-radius:16px; overflow:hidden;
-  background:#2a0b55 center/cover no-repeat;
-  box-shadow:0 10px 24px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.06) inset;
-  transform:translate(-50%,-50%);
-  transition:transform .25s ease, box-shadow .25s ease, opacity .25s ease
-}
-.card.center{transform:translate(-50%,-50%) scale(1.06); z-index:3}
-.card.left{  transform:translate(calc(-50% - 34%),-50%) rotateY(12deg) scale(.82) }
-.card.right{ transform:translate(calc(-50% + 34%),-50%) rotateY(-12deg) scale(.82) }
+    main{display:flex; flex-direction:column; flex:1; padding-top:var(--offset-logo)}
 
-.nav{
-  position:absolute; top:50%; transform:translateY(-50%);
-  background:rgba(20,6,40,.55); border:0; color:#fff;
-  width:38px; height:38px; border-radius:999px;
-  font-size:22px; font-weight:700; box-shadow:0 0 0 1px rgba(139,60,255,.25) inset;
-  display:grid; place-items:center;
-}
-.nav.prev{left:6px} .nav.next{right:6px}
+    /* ===== Galería 3D ===== */
+    .gallery{position:relative; width:100%; height:var(--gallery-height); margin-bottom:var(--gap-after-gallery)}
+    .stage{position:absolute; inset:0; perspective:900px}
+    .card{
+      position:absolute; top:var(--cards-center); left:50%;
+      width:58%; aspect-ratio:3/4;
+      border-radius:16px; overflow:hidden;
+      background:#2a0b55 center/cover no-repeat;
+      box-shadow:0 10px 24px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.06) inset;
+      transform:translate(-50%,-50%);
+      transition:transform .25s ease, box-shadow .25s ease, opacity .25s ease;
+    }
+    .card.center{transform:translate(-50%,-50%) scale(1.06); z-index:3}
+    .card.left{  transform:translate(calc(-50% - 34%),-50%) rotateY(12deg) scale(.82) }
+    .card.right{ transform:translate(calc(-50% + 34%),-50%) rotateY(-12deg) scale(.82) }
 
-/* ===== Bloque medio ===== */
-.mid-stack{display:flex; flex-direction:column; gap:12px}
+    .nav{
+      position:absolute; top:50%; transform:translateY(-50%);
+      background:rgba(20,6,40,.55); border:0; color:#fff;
+      width:38px; height:38px; border-radius:999px;
+      font-size:22px; font-weight:700; box-shadow:0 0 0 1px rgba(139,60,255,.25) inset;
+      display:grid; place-items:center;
+    }
+    .nav.prev{left:6px} .nav.next{right:6px}
 
-/* Botón WhatsApp */
-.btn-whatsapp{
-  appearance:none; border:0; border-radius:999px; text-decoration:none; cursor:pointer; display:block;
-  background:linear-gradient(90deg, #2EE77A, var(--whats), #2EE77A); color:#06250f;
-  font-weight:800; font-size:18px; padding:14px 20px; text-align:center; letter-spacing:.2px;
-  box-shadow:0 8px 26px rgba(37,211,102,.45), inset 0 0 10px rgba(0,0,0,.08);
-}
-.btn-whatsapp:active{transform:translateY(1px)}
+    /* ===== Bloque medio ===== */
+    .mid-stack{display:flex; flex-direction:column; gap:12px}
 
-/* Cinta 24 hs */
-.ribbon{
-  position:relative; border-radius:999px; text-align:center; font-weight:800; line-height:1.2;
-  font-size:16px; padding:12px 16px; color:#210c44; backdrop-filter:blur(6px);
-  background:linear-gradient(90deg, rgba(255,255,255,.40), rgba(255,255,255,.55), rgba(255,255,255,.40));
-  box-shadow:0 0 12px rgba(139,60,255,.20), inset 0 0 8px rgba(139,60,255,.16)
-}
+    /* Botón WhatsApp */
+    .btn-whatsapp{
+      appearance:none; border:0; border-radius:999px; text-decoration:none; cursor:pointer; display:block;
+      background:linear-gradient(90deg, #2EE77A, var(--whats), #2EE77A); color:#06250f;
+      font-weight:800; font-size:18px; padding:14px 20px; text-align:center; letter-spacing:.2px;
+      box-shadow:0 8px 26px rgba(37,211,102,.45), inset 0 0 10px rgba(0,0,0,.08);
+    }
+    .btn-whatsapp:active{transform:translateY(1px)}
 
-/* Banners */
-details.banner{border-radius:20px; background:rgba(20,6,40,.30); box-shadow:inset 0 0 0 1px rgba(139,60,255,.18)}
-details.banner > summary{
-  list-style:none; cursor:pointer; padding:10px 12px; font-weight:700; border-radius:20px;
-  display:flex; align-items:center; gap:8px;
-  background:linear-gradient(90deg, rgba(139,60,255,.22), rgba(240,56,255,.22));
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:15px;
-}
-details.banner > summary::-webkit-details-marker{display:none}
-details.banner > summary:after{content:"▾"; margin-left:auto; font-weight:800}
-details.banner[open] > summary:after{content:"▴"}
-details.banner .content{padding:10px 14px 14px 14px; font-size:14px; line-height:1.5; opacity:.95}
+    /* Cinta 24 hs */
+    .ribbon{
+      position:relative; border-radius:999px; text-align:center; font-weight:800; line-height:1.2;
+      font-size:16px; padding:12px 16px; color:#210c44; backdrop-filter:blur(6px);
+      background:linear-gradient(90deg, rgba(255,255,255,.40), rgba(255,255,255,.55), rgba(255,255,255,.40));
+      box-shadow:0 0 12px rgba(139,60,255,.20), inset 0 0 8px rgba(139,60,255,.16);
+    }
 
-/* Legal */
-footer{padding-top:var(--legal-top-gap); padding-bottom: calc(16px + env(safe-area-inset-bottom))}
-.legal{border-radius:16px; background:rgba(20,6,40,.55); box-shadow:inset 0 0 0 1px rgba(139,60,255,.18)}
-.legal details{margin:0}
-.legal summary{
-  list-style:none; cursor:pointer; padding:10px 14px; display:flex; align-items:center; gap:10px;
-  font-weight:800; font-size:14px; background:rgba(139,60,255,.18); border-radius:16px
-}
-.legal summary::-webkit-details-marker{display:none}
-.chip{display:inline-flex; align-items:center; justify-content:center; min-width:34px; padding:4px 8px;
-  border-radius:999px; background:rgba(139,60,255,.35); font-weight:800}
-.legal .body{padding:10px 14px 14px 14px; font-size:12px; line-height:1.55; color:#e9dbff}
+    /* Banners */
+    details.banner{border-radius:20px; background:rgba(20,6,40,.30); box-shadow:inset 0 0 0 1px rgba(139,60,255,.18)}
+    details.banner > summary{
+      list-style:none; cursor:pointer; padding:10px 12px; font-weight:700; border-radius:20px;
+      display:flex; align-items:center; gap:8px;
+      background:linear-gradient(90deg, rgba(139,60,255,.22), rgba(240,56,255,.22));
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:15px;
+    }
+    details.banner > summary::-webkit-details-marker{display:none}
+    details.banner > summary:after{content:"▾"; margin-left:auto; font-weight:800}
+    details.banner[open] > summary:after{content:"▴"}
+    details.banner .content{padding:10px 14px 14px 14px; font-size:14px; line-height:1.5; opacity:.95}
 
-/* ====== Desktop ====== */
-@media (min-width: 768px){
-  :root{
-    --offset-logo: 80px;
-    --gallery-height: 260px;
-    --cards-center: 50%;
-  }
-  .container{max-width: 960px; margin-inline:auto}
-  .card{width:36%; border-radius:20px}
-  .card.left{ transform:translate(calc(-50% - 40%),-50%) rotateY(14deg) scale(.86) }
-  .card.right{ transform:translate(calc(-50% + 40%),-50%) rotateY(-14deg) scale(.86) }
-  .btn-whatsapp{font-size:20px; padding:16px 24px}
-  .ribbon{font-size:17px}
-}
+    /* Legal */
+    footer{padding-top:var(--legal-top-gap); padding-bottom: calc(16px + env(safe-area-inset-bottom))}
+    .legal{border-radius:16px; background:rgba(20,6,40,.55); box-shadow:inset 0 0 0 1px rgba(139,60,255,.18)}
+    .legal details{margin:0}
+    .legal summary{
+      list-style:none; cursor:pointer; padding:10px 14px; display:flex; align-items:center; gap:10px;
+      font-weight:800; font-size:14px; background:rgba(139,60,255,.18); border-radius:16px;
+    }
+    .legal summary::-webkit-details-marker{display:none}
+    .chip{display:inline-flex; align-items:center; justify-content:center; min-width:34px; padding:4px 8px;
+      border-radius:999px; background:rgba(139,60,255,.35); font-weight:800}
+    .legal .body{padding:10px 14px 14px 14px; font-size:12px; line-height:1.55; color:#e9dbff}
 
-@media (min-width: 1100px){
-  :root{
-    --gallery-height: 320px;
-  }
-  .container{max-width: 1100px}
-  .card{width:30%}
-  .btn-whatsapp{font-size:22px}
-}
-</style>
+    /* ====== Desktop ====== */
+    @media (min-width: 768px){
+      :root{ --offset-logo: 80px; --gallery-height: 260px; --cards-center: 50%; }
+      .container{max-width: 960px; margin-inline:auto}
+      .card{width:36%; border-radius:20px}
+      .card.left{ transform:translate(calc(-50% - 40%),-50%) rotateY(14deg) scale(.86) }
+      .card.right{ transform:translate(calc(-50% + 40%),-50%) rotateY(-14deg) scale(.86) }
+      .btn-whatsapp{font-size:20px; padding:16px 24px}
+      .ribbon{font-size:17px}
+    }
+    @media (min-width: 1100px){
+      :root{ --gallery-height: 320px; }
+      .container{max-width: 1100px}
+      .card{width:30%}
+      .btn-whatsapp{font-size:22px}
+    }
+  </style>
+</head>
+<body>
+  <!-- FONDO -->
+  <div class="back-art" aria-hidden="true"></div>
+
+  <div class="container">
+    <header>
+      <h1 class="sr-only">GANAMOS.net</h1>
+    </header>
+
+    <main>
+      <!-- GALERÍA 3D -->
+      <section class="gallery" aria-label="Juegos destacados">
+        <div class="stage">
+          <div class="card left"  aria-hidden="true"></div>
+          <div class="card center"></div>
+          <div class="card right" aria-hidden="true"></div>
+          <button class="nav prev" aria-label="Anterior">‹</button>
+          <button class="nav next" aria-label="Siguiente">›</button>
+        </div>
+      </section>
+
+      <!-- CTA + banners -->
+      <section class="mid-stack" aria-label="Acciones principales">
+        <!-- WhatsApp: cambiá el número acá (formato internacional sin +) -->
+        <a class="btn-whatsapp" data-wa="5491134498805" target="_blank" rel="noopener nofollow">
+          BONO 30% con tu primera carga
+        </a>
+
+        <div class="ribbon">ATENCIÓN LAS 24 HS</div>
+
+        <details class="banner">
+          <summary>🎟️ Sorteo diario — participás con tu carga de hoy</summary>
+          <div class="content">
+            <p>Participás automáticamente con tu carga del día (mínimo $X).</p>
+            <p>Se sortean 5 premios de $Y.</p>
+            <p>Acreditación: al día siguiente por la mañana.</p>
+          </div>
+        </details>
+
+        <details class="banner">
+          <summary>🎁 Bonos exclusivos — consultalos por WhatsApp</summary>
+          <div class="content">
+            <p>Escribinos por WhatsApp para conocer los bonos exclusivos activos para tu cuenta.</p>
+          </div>
+        </details>
+      </section>
+
+      <!-- LEGAL -->
+      <footer>
+        <section class="legal" aria-label="Juego responsable">
+          <details>
+            <summary><span class="chip">+18</span> Juego responsable</summary>
+            <div class="body">
+              <p><strong>Participar implica riesgos.</strong> Jugá con moderación y sólo si sos mayor de 18 años.
+              Si sentís que deja de ser entretenimiento, pedí ayuda profesional y considerá opciones de autoexclusión según tu jurisdicción.</p>
+              <details>
+                <summary><strong>Términos y Condiciones</strong></summary>
+                <div class="body">Las promociones y bonos están sujetas a reglas y requisitos de liberación. Los montos, topes y disponibilidad pueden variar sin previo aviso.</div>
+              </details>
+              <details>
+                <summary><strong>Política de Privacidad</strong></summary>
+                <div class="body">Al contactarnos por WhatsApp aceptás el uso de tus datos para responder consultas y fines comerciales relacionados. Podés solicitar la baja/actualización.</div>
+              </details>
+            </div>
+          </details>
+        </section>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Enlace de WhatsApp (admite override por ?wa=...) -->
+  <script>
+    (function(){
+      const a = document.querySelector('.btn-whatsapp');
+      const qs = new URLSearchParams(location.search);
+      const waFromQS = qs.get('wa');     // ejemplo: ?wa=5491134498805
+      const raw = (waFromQS || a.getAttribute('data-wa') || '').toString();
+      const num = raw.replace(/[^0-9]/g,'');
+      const msg = 'Hola, quiero un usuario!';
+      if(num.length){ a.href = `https://wa.me/${num}?text=${encodeURIComponent(msg)}`; }
+      else { a.href = '#'; a.title = 'Falta configurar número de WhatsApp'; }
+    })();
+  </script>
+
+  <!-- Carrusel 3D: precarga/verificación de imágenes -->
+  <script>
+    (function(){
+      /* IMÁGENES DE LA GALERÍA
+         Subilas en la MISMA carpeta que index.html con estos nombres EXACTOS:
+         - jokers-jewels.png
+         - sugar-rush-1000.png
+         - sweet-bonanza-1000.png
+         Si las ponés en /img, cambiá a 'img/jokers-jewels.png', etc. */
+      const IMGS = [
+        'jokers-jewels.png',      // IMAGEN: Joker's Jewels
+        'sugar-rush-1000.png',    // IMAGEN: Sugar Rush 1000
+        'sweet-bonanza-1000.png'  // IMAGEN: Sweet Bonanza 1000
+      ];
+
+      const stage = document.querySelector('.stage');
+      if(!stage) return;
+      const left = stage.querySelector('.card.left');
+      const center = stage.querySelector('.card.center');
+      const right = stage.querySelector('.card.right');
+      const prev = stage.querySelector('.nav.prev');
+      const next = stage.querySelector('.nav.next');
+
+      let i = 0;       // índice central
+      let ok = [];     // rutas que cargaron bien
+
+      function load(src){
+        return new Promise(res=>{
+          const im = new Image();
+          im.onload = ()=>res({src, ok:true});
+          im.onerror = ()=>res({src, ok:false});
+          im.src = src;
+        });
+      }
+
+      function paintPlaceholder(){
+        const bg = 'linear-gradient(180deg, rgba(139,60,255,.35), rgba(240,56,255,.35))';
+        left.style.background = center.style.background = right.style.background = bg;
+        prev.style.display = next.style.display = 'none';
+      }
+
+      function render(){
+        if(!ok.length){ paintPlaceholder(); return; }
+        const n = ok.length;
+        const L = (i-1+n)%n, C = i, R = (i+1)%n;
+        left.style.backgroundImage = `url('${ok[L]}')`;
+        center.style.backgroundImage = `url('${ok[C]}')`;
+        right.style.backgroundImage = `url('${ok[R]}')`;
+        const showNav = n >= 2; prev.style.display = next.style.display = showNav ? 'grid' : 'none';
+      }
+
+      function go(dir){ i = (i + dir + ok.length) % ok.length; render(); }
+      prev && prev.addEventListener('click', ()=>go(-1));
+      next && next.addEventListener('click', ()=>go(1));
+
+      // Swipe touch
+      let sx = 0; stage.addEventListener('touchstart', e=>{ sx = e.touches[0].clientX; }, {passive:true});
+      stage.addEventListener('touchend', e=>{ const dx = e.changedTouches[0].clientX - sx; if(Math.abs(dx) > 40){ go(dx>0? -1: 1); } });
+
+      // Precarga + verificación
+      Promise.all(IMGS.map(load)).then(results=>{
+        ok = results.filter(r=>r.ok).map(r=>r.src);
+        render();
+      });
+    })();
+  </script>
+</body>
+</html>
