@@ -267,14 +267,14 @@
   <script>
   (function(){
     const IMGS = [
-      'assets/big-bass-bonanza.png',
-      'assets/gates-of-olympus-1000.png',
-      'assets/great-rhino-megaways.png',
-      'assets/jokers-jewels.png',
-      'assets/sugar-rush-1000.png',
-      'assets/volcano-rising.png',
-      'assets/wild-wild-riches.png',
-      'assets/zeus-vs-hades-gods-of-war.png'
+      '/assets/big-bass-bonanza.png',
+      '/assets/gates-of-olympus-1000.png',
+      '/assets/great-rhino-megaways.png',
+      '/assets/jokers-jewels.png',
+      '/assets/sugar-rush-1000.png',
+      '/assets/volcano-rising.png',
+      '/assets/wild-wild-riches.png',
+      '/assets/zeus-vs-hades-gods-of-war.png'
     ];
 
     const stage = document.querySelector('.stage');
@@ -291,7 +291,11 @@
     function load(src){
       return new Promise(res=>{
         const im = new Image();
-        im.onload = ()=>res({src, ok:true});
+        im.onload  = ()=>{ console.log('[OK carrusel]', src); res({src, ok:true}); };
+        im.onerror = ()=>{ console.warn('[FAIL carrusel]', src); res({src, ok:false}); };
+        im.src = src; // sin cache-busting, evita 404 raros
+      });
+    });
         im.onerror = ()=>res({src, ok:false});
         im.src = src + '?v=' + Date.now(); // cache-busting suave
       });
@@ -333,6 +337,7 @@
 
     Promise.all(IMGS.map(load)).then(rs=>{
       ok = rs.filter(r=>r.ok).map(r=>r.src);
+      if(!ok.length){ console.warn('Carrusel: ninguna imagen cargó. ¿Existen en /assets y con el mismo nombre?'); }
       render();
     });
   })();
