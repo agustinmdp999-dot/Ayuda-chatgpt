@@ -43,7 +43,7 @@
     .card{
       position:absolute; top:var(--cards-center); left:50%;
       width:58%; aspect-ratio:3/4; border-radius:16px; overflow:hidden;
-      background:#2a0b55 center/cover no-repeat;
+      background-color:#2a0b55; background-position:center; background-size:cover; background-repeat:no-repeat;
       box-shadow:0 10px 24px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.06) inset;
       transform:translate(-50%,-50%);
       transition:transform .25s ease, box-shadow .25s ease, opacity .25s ease;
@@ -298,7 +298,9 @@
     }
     function placeholder(){
       const bg = 'linear-gradient(180deg, rgba(139,60,255,.35), rgba(240,56,255,.35))';
-      left.style.background = center.style.background = right.style.background = bg;
+      left.style.backgroundImage = bg;
+      center.style.backgroundImage = bg;
+      right.style.backgroundImage = bg;
       prev.style.display = next.style.display = 'none';
     }
     function render(){
