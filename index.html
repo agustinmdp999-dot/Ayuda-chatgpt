@@ -13,7 +13,7 @@
       --legal-top-gap:7vh;
     }
     *{box-sizing:border-box}
-    html,body{height:100%}
+    html,body{height:100%; overscroll-behavior-x:none;}
     body{
       margin:0; color:var(--text);
       font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -38,8 +38,8 @@
     main{display:flex; flex-direction:column; flex:1; padding-top:var(--offset-logo)}
 
     /* Galería 3D */
-    .gallery{position:relative; width:100%; height:var(--gallery-height); margin-bottom:var(--gap-after-gallery)}
-    .stage{position:absolute; inset:0; perspective:900px}
+    .gallery{position:relative; width:100%; height:var(--gallery-height); margin-bottom:var(--gap-after-gallery); touch-action: pan-y;} 
+    .stage{position:absolute; inset:0; perspective:900px; -webkit-user-select:none; user-select:none; touch-action: pan-y;} 
     .card{
       position:absolute; top:var(--cards-center); left:50%;
       width:58%; aspect-ratio:3/4; border-radius:16px; overflow:hidden;
@@ -63,12 +63,25 @@
     /* Bloque medio */
     .mid-stack{display:flex; flex-direction:column; gap:12px; max-width:720px; margin-inline:auto}
     .btn-whatsapp{
-      appearance:none; border:0; border-radius:999px; text-decoration:none; cursor:pointer; display:block;
+      appearance:none; border:0; border-radius:999px; text-decoration:none; cursor:pointer; display:flex;
+      align-items:center; justify-content:center; gap:12px;
       background:linear-gradient(90deg, #2EE77A, var(--whats), #2EE77A); color:#06250f;
-      font-weight:800; font-size:18px; padding:14px 20px; text-align:center; letter-spacing:.2px;
-      box-shadow:0 8px 26px rgba(37,211,102,.45), inset 0 0 10px rgba(0,0,0,.08);
+      font-weight:900; font-size:20px; letter-spacing:.2px;
+      padding:16px 22px; min-height:56px;
+      box-shadow:0 10px 30px rgba(37,211,102,.55), inset 0 0 10px rgba(0,0,0,.10);
+      text-transform:uppercase;
+      position:relative;
+      transition:transform .12s ease, box-shadow .2s ease, filter .2s ease;
+      will-change:transform;
     }
-    .btn-whatsapp:active{transform:translateY(1px)}
+    .btn-whatsapp:active{transform:translateY(1px) scale(.99)}
+    .btn-whatsapp:focus-visible{outline:3px solid rgba(255,255,255,.65); outline-offset:2px}
+    .btn-whatsapp .wa-ico{display:grid; place-items:center; width:26px; height:26px; border-radius:6px;
+      background:rgba(255,255,255,.85); color:#25D366; box-shadow:0 0 0 1px rgba(0,0,0,.06) inset}
+    .btn-whatsapp .wa-ico svg{width:18px; height:18px; display:block}
+    .btn-whatsapp .label{line-height:1}
+    @keyframes btnPulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,.55)}70%{box-shadow:0 0 0 16px rgba(37,211,102,0)}100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}}
+    .btn-whatsapp{animation:btnPulse 2.6s infinite} 
     .ribbon{
       position:relative; border-radius:999px; text-align:center; font-weight:800; line-height:1.2;
       font-size:16px; padding:12px 16px; color:#210c44; backdrop-filter:blur(6px);
@@ -162,8 +175,11 @@
 
       <!-- Acciones -->
       <section class="mid-stack" aria-label="Acciones principales">
-        <a class="btn-whatsapp" href="#" data-wa="5491134498805" target="_blank" rel="nofollow noopener">
-          BONO 30% con tu primera carga
+        <a class="btn-whatsapp" href="#" data-wa="5491134498805" aria-label="Chatear por WhatsApp — Pedí tu bono 30%" target="_blank" rel="nofollow noopener">
+          <span class="wa-ico" aria-hidden="true">
+            <svg viewBox="0 0 32 32" role="img" aria-label="WhatsApp"><path fill="currentColor" d="M16.02 5C10.49 5 6 9.48 6 15.01c0 1.77.47 3.44 1.29 4.88L6 26l6.29-1.65c1.4.77 3.01 1.22 4.73 1.22 5.53 0 10.01-4.48 10.01-10.01C27.03 9.48 21.55 5 16.02 5Zm0 18.17c-1.66 0-3.2-.49-4.48-1.33l-.32-.2-3.22.85.86-3.14-.21-.32c-.87-1.36-1.39-2.97-1.39-4.72 0-4.79 3.89-8.67 8.67-8.67 4.79 0 8.67 3.89 8.67 8.67 0 4.78-3.88 8.66-8.67 8.66Zm3.09-5.63c-.26-.13-1.53-.75-1.77-.83-.24-.09-.42-.13-.59.13-.17.26-.68.83-.83 1-.15.17-.31.19-.57.06-.26-.13-1.07-.39-2.05-1.24-.76-.68-1.27-1.52-1.42-1.78-.15-.26-.02-.4.11-.53.11-.11.26-.29.39-.44.13-.15.17-.26.26-.44.09-.17.04-.32-.02-.45-.06-.13-.59-1.42-.81-1.95-.21-.51-.43-.44-.59-.45l-.5-.01c-.17 0-.45.06-.69.32s-.9.88-.9 2.14.92 2.48 1.05 2.65c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.48.55.62.2 1.18.17 1.63.1.5-.08 1.53-.62 1.75-1.22.22-.6.22-1.12.15-1.22-.06-.1-.24-.16-.5-.29Z"/></svg>
+          </span>
+          <span class="label">PEDÍ TU BONO 30%</span>
         </a>
 
         <div class="ribbon">ATENCIÓN LAS 24 HS</div>
@@ -297,8 +313,21 @@
     function go(dir){ i = (i + dir + ok.length) % ok.length; render(); }
     prev && prev.addEventListener('click', ()=>go(-1));
     next && next.addEventListener('click', ()=>go(1));
-    let sx=0; stage.addEventListener('touchstart', e=>{ sx=e.touches[0].clientX; }, {passive:true});
-    stage.addEventListener('touchend', e=>{ const dx=e.changedTouches[0].clientX - sx; if(Math.abs(dx)>40){ go(dx>0? -1 : 1); } });
+    let sx=0, sy=0, locked=false;
+    stage.addEventListener('touchstart', e=>{
+      const t=e.touches[0]; sx=t.clientX; sy=t.clientY; locked=false;
+    }, {passive:true});
+    stage.addEventListener('touchmove', e=>{
+      const t=e.touches[0]; const dx=t.clientX - sx; const dy=t.clientY - sy;
+      if(!locked && Math.abs(dx) > Math.abs(dy) + 10){ locked=true; }
+      if(locked){ e.preventDefault(); }
+    }, {passive:false});
+    stage.addEventListener('touchend', e=>{
+      if(!locked) return;
+      const t=e.changedTouches[0]; const dx=t.clientX - sx;
+      if(Math.abs(dx)>40){ go(dx>0? -1 : 1); }
+    }, {passive:true});
+    stage.addEventListener('touchcancel', ()=>{ locked=false; }); } });
 
     Promise.all(IMGS.map(load)).then(rs=>{
       ok = rs.filter(r=>r.ok).map(r=>r.src);
