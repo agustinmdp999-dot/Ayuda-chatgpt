@@ -274,6 +274,7 @@
       'wild-wild-riches.png',
       'zeus-vs-hades-gods-of-war.png'
     ];
+    const BASES = ['/assets/','./assets/','assets/'];
 
     const stage = document.querySelector('.stage');
     if(!stage) return;
@@ -284,45 +285,34 @@
     const prev = stage.querySelector('.nav.prev');
     const next = stage.querySelector('.nav.next');
 
-    let i = 0, ok = [];
+    let i = 0;
+    let ok = [];
 
-    function load(name){
-      // Intenta /assets, ./assets y assets (según cómo se sirva el HTML)
-      const candidates = [
-        `/assets/${name}`,
-        `./assets/${name}`,
-        `assets/${name}`
-      ];
-      let i = 0;
-      return new Promise(res=>{
-        const tryNext = ()=>{
-          if(i >= candidates.length){
-            console.warn('[FAIL carrusel] Ninguna ruta válida para', name);
-            return res({src: candidates[0], ok:false});
-          }
-          const src = candidates[i++];
-          const im = new Image();
-          im.onload  = ()=>{ console.log('[OK carrusel]', src); res({src, ok:true}); };
-          im.onerror = ()=>{ console.warn('[retry carrusel]', src); tryNext(); };
-          im.src = src; // sin cache-busting para evitar 404 en estáticos
-        };
-        tryNext();
-      });
-    }); };
-        im.onerror = ()=>{ console.warn('[FAIL carrusel]', src); res({src, ok:false}); };
-        im.src = src; // sin cache-busting, evita 404 raros
-      });
-    });
-        im.onerror = ()=>res({src, ok:false});
-        im.src = src + '?v=' + Date.now(); // cache-busting suave
+    function loadOne(path){
+      return new Promise(resolve=>{
+        const im = new Image();
+        im.onload  = ()=>resolve({src:path, ok:true});
+        im.onerror = ()=>resolve({src:path, ok:false});
+        im.src = path;
       });
     }
+    function load(name){
+      // prueba rutas en orden hasta encontrar una válida
+      return BASES.reduce((p, base)=>{
+        return p.then(found=>{
+          if(found) return found;
+          return loadOne(base + name).then(r=> r.ok ? r : null);
+        });
+      }, Promise.resolve(null)).then(res=> res || {src: BASES[0]+name, ok:false});
+    }
+
     function placeholder(){
       const bg = 'linear-gradient(180deg, rgba(139,60,255,.35), rgba(240,56,255,.35))';
       left.style.backgroundImage = bg;
       center.style.backgroundImage = bg;
       right.style.backgroundImage = bg;
-      prev.style.display = next.style.display = 'none';
+      if(prev) prev.style.display = 'none';
+      if(next) next.style.display = 'none';
     }
     function render(){
       if(!ok.length){ placeholder(); return; }
@@ -331,15 +321,17 @@
       left.style.backgroundImage   = `url('${ok[L]}')`;
       center.style.backgroundImage = `url('${ok[C]}')`;
       right.style.backgroundImage  = `url('${ok[R]}')`;
-      const showNav = n >= 2; prev.style.display = next.style.display = showNav ? 'grid' : 'none';
+      const showNav = n >= 2;
+      if(prev) prev.style.display = showNav ? 'grid' : 'none';
+      if(next) next.style.display = showNav ? 'grid' : 'none';
     }
     function go(dir){ i = (i + dir + ok.length) % ok.length; render(); }
-    prev && prev.addEventListener('click', ()=>go(-1));
-    next && next.addEventListener('click', ()=>go(1));
+    if(prev) prev.addEventListener('click', ()=>go(-1));
+    if(next) next.addEventListener('click', ()=>go(1));
+
+    // Gestos táctiles: swipe horizontal sin interferir con scroll vertical
     let sx=0, sy=0, locked=false;
-    stage.addEventListener('touchstart', e=>{
-      const t=e.touches[0]; sx=t.clientX; sy=t.clientY; locked=false;
-    }, {passive:true});
+    stage.addEventListener('touchstart', e=>{ const t=e.touches[0]; sx=t.clientX; sy=t.clientY; locked=false; }, {passive:true});
     stage.addEventListener('touchmove', e=>{
       const t=e.touches[0]; const dx=t.clientX - sx; const dy=t.clientY - sy;
       if(!locked && Math.abs(dx) > Math.abs(dy) + 10){ locked=true; }
@@ -350,11 +342,11 @@
       const t=e.changedTouches[0]; const dx=t.clientX - sx;
       if(Math.abs(dx)>40){ go(dx>0? -1 : 1); }
     }, {passive:true});
-    stage.addEventListener('touchcancel', ()=>{ locked=false; }); } });
+    stage.addEventListener('touchcancel', ()=>{ locked=false; });
 
     Promise.all(IMGS.map(load)).then(rs=>{
       ok = rs.filter(r=>r.ok).map(r=>r.src);
-      if(!ok.length){ console.warn('Carrusel: ninguna imagen cargó. ¿Existen en /assets y con el mismo nombre?'); }
+      console.log('Carrusel cargadas:', ok);
       render();
     });
   })();
