@@ -267,14 +267,14 @@
   <script>
   (function(){
     const IMGS = [
-      '/assets/big-bass-bonanza.png',
-      '/assets/gates-of-olympus-1000.png',
-      '/assets/great-rhino-megaways.png',
-      '/assets/jokers-jewels.png',
-      '/assets/sugar-rush-1000.png',
-      '/assets/volcano-rising.png',
-      '/assets/wild-wild-riches.png',
-      '/assets/zeus-vs-hades-gods-of-war.png'
+      'big-bass-bonanza.png',
+      'gates-of-olympus-1000.png',
+      'great-rhino-megaways.png',
+      'jokers-jewels.png',
+      'sugar-rush-1000.png',
+      'volcano-rising.png',
+      'wild-wild-riches.png',
+      'zeus-vs-hades-gods-of-war.png'
     ];
 
     const stage = document.querySelector('.stage');
@@ -288,10 +288,29 @@
 
     let i = 0, ok = [];
 
-    function load(src){
+    function load(name){
+      // Intenta /assets, ./assets y assets (según cómo se sirva el HTML)
+      const candidates = [
+        `/assets/${name}`,
+        `./assets/${name}`,
+        `assets/${name}`
+      ];
+      let i = 0;
       return new Promise(res=>{
-        const im = new Image();
-        im.onload  = ()=>{ console.log('[OK carrusel]', src); res({src, ok:true}); };
+        const tryNext = ()=>{
+          if(i >= candidates.length){
+            console.warn('[FAIL carrusel] Ninguna ruta válida para', name);
+            return res({src: candidates[0], ok:false});
+          }
+          const src = candidates[i++];
+          const im = new Image();
+          im.onload  = ()=>{ console.log('[OK carrusel]', src); res({src, ok:true}); };
+          im.onerror = ()=>{ console.warn('[retry carrusel]', src); tryNext(); };
+          im.src = src; // sin cache-busting para evitar 404 en estáticos
+        };
+        tryNext();
+      });
+    }); };
         im.onerror = ()=>{ console.warn('[FAIL carrusel]', src); res({src, ok:false}); };
         im.src = src; // sin cache-busting, evita 404 raros
       });
